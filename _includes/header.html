@@ -1,0 +1,10 @@
+<header class="masthead">
+  <div class="wrapper masthead-inner">
+    {% if page.url == "/" %}
+      <h1 class="blog-title">{{ site.title | escape }}</h1>
+      <p class="blog-description">{{ site.description | escape }}</p>
+    {% else %}
+      <a class="home-link" href="{{ '/' | relative_url }}">← {{ site.title | escape }}</a>
+    {% endif %}
+  </div>
+</header>
