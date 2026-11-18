@@ -1,0 +1,17 @@
+---
+layout: default
+---
+<section aria-labelledby="articles">
+  <h2 class="section-title" id="articles">文章</h2>
+  <ol class="article-list">
+    {% for post in site.posts %}
+      <li>
+        <article>
+          <time class="post-meta" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: site.minima.date_format }}</time>
+          <h3><a href="{{ post.url | relative_url }}">{{ post.title | escape }}</a></h3>
+          <p>{{ post.excerpt | strip_html | strip | escape }}</p>
+        </article>
+      </li>
+    {% endfor %}
+  </ol>
+</section>

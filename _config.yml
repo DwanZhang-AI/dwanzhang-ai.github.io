@@ -1,0 +1,13 @@
+title: 纸上日常
+description: 写作与技术笔记
+lang: zh-CN
+url: https://dwanzhang-ai.github.io
+baseurl: ""
+theme: minima
+permalink: /posts/:title/
+plugins:
+  - jekyll-feed
+minima:
+  date_format: "%Y 年 %-m 月 %-d 日"
+exclude:
+  - README.md
