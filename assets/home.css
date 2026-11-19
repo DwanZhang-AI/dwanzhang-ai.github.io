@@ -38,13 +38,13 @@ body { margin: 0; }
 .home .ve-language { min-width: 44px; justify-content: end; font-size: .9375rem; }
 .home-intro {
   border-top: 1px solid var(--rule);
-  padding-block: clamp(1.8rem, 4.8vw, 4.5rem);
+  padding-block: clamp(1.25rem, 2.6vw, 2.25rem);
 }
 .home-intro h1 {
-  font-size: clamp(2.1rem, 10.8vw, 6.75rem);
-  line-height: 1.05;
-  letter-spacing: -.055em;
-  font-weight: 690;
+  font-size: clamp(1.75rem, 1.1rem + 2vw, 2.75rem);
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  font-weight: 650;
 }
 .home-writing { border-top: 2px solid var(--ink); }
 .home-writing h2 { padding-block: .9rem 0; font-size: .98rem; font-weight: 600; }
