@@ -40,8 +40,7 @@ html, body { margin: 0; padding: 0; }
   align-items: center;
   min-height: 44px;
 }
-.ve-brand { gap: .4em; font: 600 .875rem/1.25 var(--mono); text-decoration: none; }
-.ve-brand span { font-weight: 400; color: #737373; }
+.ve-brand { font: 600 .875rem/1.25 var(--mono); text-decoration: none; }
 .ve-language { justify-content: center; min-width: 44px; font-size: .875rem; text-decoration: none; }
 .ve-reading {
   max-width: calc(68rem + var(--left) + var(--right));

@@ -10,6 +10,6 @@
   {% assign switch_label = '切换到中文' -%}
 {%- endif -%}
 <header class="ve-mast">
-  <a class="ve-brand" href="{{ home | relative_url }}">{% if page.type == 'website' %}{{ site.brand | escape }}{% else %}{{ site.title | escape | replace: ' / ', ' <span>-</span> ' }}{% endif %}</a>
+  <a class="ve-brand" href="{{ home | relative_url }}">{% if page.type == 'website' %}{{ site.brand | escape }}{% else %}{{ site.publication_name | escape }}{% endif %}</a>
   <a class="ve-language" href="{{ page.alternate | relative_url }}" lang="{{ target_language }}" hreflang="{{ target_language }}" aria-label="{{ switch_label }}">{{ switch_text }}</a>
 </header>
