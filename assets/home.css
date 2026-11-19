@@ -41,7 +41,7 @@ body { margin: 0; }
   padding-block: clamp(1.25rem, 2.6vw, 2.25rem);
 }
 .home-intro h1 {
-  font-size: clamp(1.75rem, 1.1rem + 2vw, 2.75rem);
+  font-size: clamp(2rem, 5vw, 3.75rem);
   line-height: 1.15;
   letter-spacing: -.035em;
   font-weight: 650;
@@ -90,6 +90,7 @@ body { margin: 0; }
 .home:lang(zh-CN) .entry-copy h3 { letter-spacing: -.025em; line-height: 1.24; }
 @media (max-width: 44rem) {
   .home .ve-mast { min-height: 3.25rem; }
+  .home-intro h1 { font-size: clamp(1.75rem, 1.1rem + 2vw, 2.75rem); }
   .home-entry { grid-template-columns: minmax(0, 1fr); gap: 1.35rem; padding-block: 1.2rem 1.75rem; }
   .entry-copy h3 { margin-block: .5rem; }
   .entry-copy p { font-size: 1rem; }
