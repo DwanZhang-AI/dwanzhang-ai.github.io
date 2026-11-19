@@ -76,7 +76,7 @@
     if (marker) {
       const rect = marker.getBoundingClientRect();
       window.scrollBy(0, rect.top + rect.height * state.point.fraction - state.point.gap - readingLine());
-      focus(state.focusId ? destination : marker);
+      if (state.focusId) focus(destination);
     } else if (destination) {
       destination.scrollIntoView({block: "start"});
       focus(destination);
