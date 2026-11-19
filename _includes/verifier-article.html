@@ -1,5 +1,7 @@
 {%- assign article = site.data.verifier[page.language] -%}
 {%- assign labels = article.labels -%}
+{%- assign zh = false -%}
+{%- if page.language == 'zh' %}{% assign zh = true %}{% endif -%}
 <article id="verifier-essay" lang="{{ labels.lang }}">
   <header class="ve-mast">
     <a class="ve-brand" href="{{ labels.home | relative_url }}">DwanZhang <span>/</span> AI Notes</a>
@@ -8,55 +10,84 @@
 
   <div class="ve-reading">
     <header class="ve-opening">
-      <time datetime="{{ site.data.verifier.published }}">{% if page.language == 'zh' %}{{ site.data.verifier.published | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ site.data.verifier.published | date: '%B %-d, %Y' }}{% endif %}</time>
+      <time datetime="{{ site.data.verifier.published }}">{% if zh %}{{ site.data.verifier.published | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ site.data.verifier.published | date: '%B %-d, %Y' }}{% endif %}</time>
       <h1 data-position="title">{% for line in article.title_lines %}{% unless forloop.first %} {% endunless %}<span>{{ line | escape }}</span>{% endfor %}</h1>
-      <p class="ve-lead" data-position="lead">{{ article.lead | escape }}</p>
-      <a class="ve-index-link" id="ve-browse-cases" href="#ve-checklist">{{ labels.browse }} <span aria-hidden="true">↓</span></a>
     </header>
 
-    <section class="ve-section" id="ve-four">
-      <h2 data-position="examples">{{ labels.four }}</h2>
-      {% for group in article.groups %}
-        {% assign featured = group.rows[group.featured] %}
-        {% assign number = featured.n | prepend: '0' | slice: -2, 2 %}
-        {% assign punctuation = featured.example | slice: -1, 1 %}
-        <div class="ve-vignette" data-position="ex-{{ forloop.index0 }}">
-          <h3 data-position="ex-title-{{ forloop.index0 }}">
-            <a class="ve-case-link" id="ve-ref-ex-title-{{ forloop.index0 }}-v{{ number }}-0" href="#v{{ number }}">
-              <span class="ve-case-kicker"><small>#{{ number }}</small> {{ group.name | escape }}</span>
-              <span class="ve-case-title">{{ group.example_title | escape }}</span>
-            </a>
-          </h3>
-          <p data-position="ex-text-{{ forloop.index0 }}">{{ featured.example | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}{% unless '.!?。！？' contains punctuation %}{% if page.language == 'zh' %}。{% else %}.{% endif %}{% endunless %}</p>
-        </div>
-      {% endfor %}
-    </section>
-
-    <section class="ve-section" id="ve-intro">
-      <h2 data-position="context">{{ labels.context }}</h2>
+    <section class="ve-section" id="ve-intro" aria-labelledby="ve-intro-title">
+      <h2 id="ve-intro-title" data-position="introduction">{{ labels.intro }}</h2>
       {% for paragraph in article.opening %}
-        {% unless forloop.last %}
-          <p data-position="intro-{{ forloop.index0 }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-          {% if forloop.rindex == 3 %}<blockquote data-position="principle">{{ article.quote | escape }}</blockquote>{% endif %}
-        {% endunless %}
+        <p data-position="intro-{{ forloop.index0 }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
+        {% if forloop.index == 3 %}<blockquote data-position="principle">{{ article.quote | escape }}</blockquote>{% endif %}
       {% endfor %}
-    </section>
 
-    <section class="ve-section" id="ve-discussion">
-      <h2 data-position="discussion">{{ article.discussionTitle | escape }}</h2>
-      {% assign arguments = article.discussionBefore | concat: article.discussionAfter %}
-      {% for paragraph in arguments %}
-        <p data-position="argument-{{ forloop.index0 }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-      {% endfor %}
+      <h3 id="ve-guide" data-position="guide">{{ labels.guide }}</h3>
+      <p data-position="scheme">{{ labels.scheme | escape }}</p>
+      <table class="ve-terms ve-table" aria-labelledby="ve-guide">
+        <thead><tr>
+          <th scope="col">{% if zh %}部分{% else %}Part{% endif %}</th>
+          <th scope="col">{% if zh %}是什么{% else %}What it is{% endif %}</th>
+          <th scope="col">{% if zh %}例{% else %}Examples{% endif %}</th>
+        </tr></thead>
+        <tbody>
+          {% for term in article.terms %}
+            <tr>
+              <th scope="row" data-position="term-title-{{ forloop.index0 }}">{{ term[0] | escape }}</th>
+              <td data-position="term-def-{{ forloop.index0 }}">{{ term[1] | escape }}</td>
+              <td data-position="term-example-{{ forloop.index0 }}"><span class="ve-field-label" aria-hidden="true">{{ labels.example }}</span>{{ term[2] | escape }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p id="ve-groups-intro" data-position="groups-intro">{{ labels.group_intro | escape }}</p>
+      <table class="ve-groups-guide ve-table" aria-labelledby="ve-groups-intro">
+        <thead><tr><th scope="col">{% if zh %}组{% else %}Group{% endif %}</th><th scope="col">{% if zh %}含义{% else %}Meaning{% endif %}</th></tr></thead>
+        <tbody>
+          {% for group in article.groups %}
+            {% assign first = group.rows.first.n | prepend: '0' | slice: -2, 2 %}
+            <tr><th scope="row" data-position="group-name-{{ first }}"><a href="#ve-group-{{ first }}">{{ group.name | escape }}</a></th>
+              <td data-position="group-description-{{ first }}">{{ group.description | escape }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </section>
 
     {% include verifier-checklist.html %}
 
+    <section class="ve-section" id="ve-discussion" aria-labelledby="ve-conclusion">
+      <h2 id="ve-conclusion" data-position="conclusion">{{ labels.conclusion }}</h2>
+      <h3 id="ve-discussion-title" data-position="discussion">{{ article.discussionTitle | escape }}</h3>
+      {% for paragraph in article.discussionBefore %}
+        <p data-position="argument-before-{{ forloop.index }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
+      {% endfor %}
+      <table class="ve-comparison ve-table" aria-labelledby="ve-discussion-title">
+        <thead><tr>
+          <td></td>
+          {% for label in article.comparisonLabels %}<th scope="col">{{ label | escape }}</th>{% endfor %}
+        </tr></thead>
+        <tbody>
+          {% for pair in article.comparison %}
+            {% assign row = forloop.index %}
+            <tr>
+              <th scope="row" data-position="compare-{{ row }}-label">{{ pair[0] | escape }}</th>
+              {% for label in article.comparisonLabels %}
+                {% assign column = forloop.index %}
+                <td data-position="compare-{{ row }}-{{ column }}"><span class="ve-field-label" aria-hidden="true">{{ label | escape }}</span>{{ pair[column] | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% for paragraph in article.discussionAfter %}
+        <p data-position="argument-after-{{ forloop.index }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
+      {% endfor %}
+    </section>
+
     <footer id="ve-notes">
       <h2 data-position="notes">{{ labels.notes }}</h2>
-      {% for note in article.notes %}<p data-position="note-{{ forloop.index }}">{{ note | escape }}</p>{% endfor %}
+      <ul>{% for note in article.notes %}<li data-position="note-{{ forloop.index }}">{{ note | escape }}</li>{% endfor %}</ul>
       <h2 data-position="references">{{ labels.reference }}</h2>
-      <a data-position="paper" href="https://arxiv.org/abs/2507.02825">[1] Establishing Best Practices for Building Rigorous Agentic Benchmarks.</a>
+      <a data-position="paper" href="https://arxiv.org/abs/2507.02825">[1] Establishing Best Practices for Building Rigorous Agentic Benchmarks. arXiv:2507.02825.</a>
       <p data-position="feed"><a href="{{ '/feed.xml' | relative_url }}" type="application/atom+xml">RSS</a></p>
     </footer>
   </div>

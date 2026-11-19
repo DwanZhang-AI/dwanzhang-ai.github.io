@@ -1,177 +1,122 @@
 (() => {
-  const checklist = document.getElementById("ve-checklist");
-  if (!checklist) return;
+  const article = document.getElementById("verifier-essay");
+  if (!article) return;
 
-  const groups = [...checklist.querySelectorAll("details.ve-group")];
-  const mast = document.querySelector(".ve-mast");
-  const transferKey = "verifier-article:language";
-  const markers = [...document.querySelectorAll("[data-position]")].filter(
+  const mast = article.querySelector(".ve-mast");
+  const markers = [...article.querySelectorAll("[data-position]")].filter(
     node => !node.querySelector("[data-position]")
   );
+  const state = () => history.state?.veArticle || {};
   const byId = id => id ? document.getElementById(id) : null;
-  const current = () => history.state?.veArticle || {};
-  const openGroups = () => groups.filter(group => group.open).map(group => group.id);
   const readingLine = () => Math.max(0, mast.getBoundingClientRect().bottom) + 8;
-  const caseLink = link => /^#v\d{2}$/.test(link.getAttribute("href"));
+  const transferKey = "verifier-article:language";
 
-  // Give every citation a bilingual, shareable return address.
+  // A case can be cited more than once in the same translated paragraph.
   const counts = new Map();
-  for (const link of document.querySelectorAll('a[href^="#v"]')) {
-    const marker = link.closest("[data-position]");
-    if (!caseLink(link) || !marker || link.id || link.closest(".ve-item")?.id === link.hash.slice(1)) continue;
-    const key = marker.dataset.position + "-" + link.hash.slice(1);
+  for (const link of article.querySelectorAll('a[href^="#v"]')) {
+    const paragraph = link.closest("[data-position]");
+    if (!/^#v\d{2}$/.test(link.hash) || !paragraph || link.matches(".ve-permalink")) continue;
+    const key = paragraph.dataset.position + "-" + link.hash.slice(1);
     const count = counts.get(key) || 0;
     counts.set(key, count + 1);
-    link.id = "ve-ref-" + key + "-" + count;
+    if (!link.id) link.id = "ve-ref-" + key + "-" + count;
   }
 
   function readingPoint() {
     const line = readingLine();
-    for (const marker of markers) {
-      if (marker.closest("details:not([open])") && !marker.matches("summary")) continue;
-      const rect = marker.getBoundingClientRect();
-      if (rect.height && rect.bottom > line) {
-        return {
-          key: marker.dataset.position,
-          gap: Math.max(0, rect.top - line),
-          fraction: Math.max(0, (line - rect.top) / rect.height),
-          item: marker.closest(".ve-item")?.id
-        };
-      }
-    }
-    return null;
+    const linkedRow = byId(location.hash.slice(1));
+    // A linked table row can leave a sliver of the previous row below the mast.
+    const atLinkedRow = linkedRow?.matches(".ve-item") &&
+      Math.abs(linkedRow.getBoundingClientRect().top - parseFloat(getComputedStyle(linkedRow).scrollMarginTop)) < 2;
+    const marker = atLinkedRow ? linkedRow : markers.find(node => {
+      const rect = node.getBoundingClientRect();
+      return rect.height && rect.bottom > line;
+    });
+    if (!marker) return null;
+    const rect = marker.getBoundingClientRect();
+    return {
+      key: marker.dataset.position,
+      gap: Math.max(0, rect.top - line),
+      fraction: Math.max(0, (line - rect.top) / rect.height),
+      item: marker.closest(".ve-item")?.id
+    };
   }
 
-  function snapshot(focusId) {
-    return {...current(), groups: openGroups(), point: readingPoint(), focusId};
+  function replace(entry) {
+    history.replaceState({...history.state, veArticle: entry}, "");
   }
 
-  function replace(state, url = location.href) {
-    history.replaceState({...history.state, veArticle: state}, "", url);
+  function remember(focusId) {
+    const entry = {...state(), point: readingPoint(), focusId};
+    replace(entry);
+    return entry;
   }
 
-  function applyGroups(expanded) {
-    if (expanded) groups.forEach(group => { group.open = expanded.includes(group.id); });
-  }
-
-  function restore(state) {
+  function restore() {
+    const entry = state();
     const target = byId(location.hash.slice(1));
-    applyGroups(state.groups);
-    const item = target?.closest(".ve-item");
-    if (item) item.closest("details").open = true;
-
-    document.querySelector(".ve-origin-link")?.remove();
-    if (item && state.origin) {
+    const source = byId(entry.sourceId);
+    article.querySelector(".ve-origin-link")?.remove();
+    if (source && target?.matches(".ve-item")) {
       const back = document.createElement("a");
       back.className = "ve-back ve-origin-link";
-      back.href = "#" + state.origin.id;
+      back.href = "#" + source.id;
       back.textContent = document.documentElement.lang.startsWith("zh")
         ? "← 返回刚才读到的位置" : "← Back to where you were reading";
-      item.prepend(back);
+      target.querySelector('[data-position="' + target.id + '-title"]').prepend(back);
     }
 
-    requestAnimationFrame(() => restorePosition(state, target));
+    requestAnimationFrame(() => {
+      const point = entry.point;
+      const marker = point && (markers.find(node => node.dataset.position === point.key) || byId(point.key));
+      if (marker) {
+        const rect = marker.getBoundingClientRect();
+        window.scrollBy(0, rect.top + rect.height * point.fraction - point.gap - readingLine());
+      } else if (source && target?.matches(".ve-item")) {
+        target.scrollIntoView({block: "start"});
+        target.querySelector(".ve-permalink")?.focus({preventScroll: true});
+      }
+      byId(entry.focusId)?.focus({preventScroll: true});
+    });
   }
 
-  function restorePosition(state, target) {
-    const point = state.point;
-    const marker = point && markers.find(node => node.dataset.position === point.key);
-    if (marker) {
-      const rect = marker.getBoundingClientRect();
-      window.scrollBy(0, rect.top + rect.height * point.fraction - point.gap - readingLine());
-    } else if (target) {
-      target.scrollIntoView({block: "start"});
-    }
-    // Transfer focus only for explicit jumps. Reading-position restoration never
-    // makes ordinary prose focusable when switching language or reloading.
-    const focusTarget = byId(state.focusId);
-    if (focusTarget) {
-      const control = focusTarget.matches("a, summary") ? focusTarget : focusTarget.querySelector("h4 a");
-      control?.focus({preventScroll: true});
-    }
-  }
-
-  function navigate(hash, state, source) {
-    if (location.hash !== hash) {
-      replace(snapshot(source?.id));
-      history.pushState({veArticle: state}, "", hash);
-    } else {
-      replace(state);
-    }
-    restore(state);
-  }
-
-  function translate(link) {
-    const url = new URL(link.href);
-    const state = snapshot();
-    if (state.point?.item) url.hash = state.point.item;
-    const transfer = {to: url.href, from: location.pathname, state: {...state, steps: 0}};
-    try {
-      sessionStorage.setItem(transferKey, JSON.stringify(transfer));
-    } catch { /* Ordinary navigation still works when storage is disabled. */ }
-    replace(state);
-    location.assign(url);
-  }
-
-  document.addEventListener("click", event => {
+  article.addEventListener("click", event => {
     const link = event.target.closest("a[href]");
     if (!link || event.defaultPrevented || event.button || event.ctrlKey ||
         event.metaKey || event.shiftKey || event.altKey || link.target === "_blank") return;
+
     if (link.matches(".ve-language")) {
       event.preventDefault();
-      translate(link);
-      return;
-    }
-
-    const state = current();
-    if (link.matches(".ve-origin-link") && state.origin) {
+      const entry = remember();
+      const url = new URL(link.href);
+      if (entry.point?.item) url.hash = entry.point.item;
+      try {
+        sessionStorage.setItem(transferKey, JSON.stringify({
+          to: url.href, from: location.pathname, entry: {...entry, localReturn: false}
+        }));
+      } catch { /* The translation link still works without session storage. */ }
+      location.assign(url);
+    } else if (link.matches(".ve-origin-link") && state().localReturn) {
       event.preventDefault();
-      if (state.steps) history.go(-state.steps);
-      else navigate(link.hash, {groups: state.origin.groups, focusId: state.origin.id});
-    } else if (link.matches(".ve-group-back, .ve-index-link")) {
+      history.back();
+    } else if (link.getAttribute("href").startsWith("#")) {
+      remember(link.id);
+      if (!link.id || !/^#v\d{2}$/.test(link.hash) || link.matches(".ve-permalink")) return;
       event.preventDefault();
-      navigate(link.hash, {groups: [], focusId: groups[0].querySelector("summary").id}, link);
-    } else if (caseLink(link) && byId(link.hash.slice(1))) {
-      event.preventDefault();
-      const id = link.hash.slice(1);
-      const self = location.hash === link.hash;
-      let origin = state.origin;
-      let steps = state.steps || 0;
-      if (!self && link.id && (!origin || !link.closest(".ve-item"))) {
-        origin = {id: link.id, groups: openGroups()};
-        steps = 1;
-      } else if (!self && steps) {
-        steps++;
-      }
-      const group = byId(id).closest("details");
-      const expanded = openGroups();
-      if (!expanded.includes(group.id)) expanded.push(group.id);
-      navigate(link.hash, {groups: expanded, origin, steps, focusId: id}, link);
+      history.pushState({veArticle: {sourceId: link.id, localReturn: true}}, "", link.hash);
+      restore();
     }
   });
 
-  // Native summary controls keep their keyboard behaviour and their history entry.
-  for (const group of groups) group.addEventListener("toggle", () => {
-    const state = current();
-    const expanded = openGroups();
-    if (state.groups?.join() === expanded.join()) return;
-    const closedTarget = !group.open && group.contains(byId(location.hash.slice(1)));
-    const url = closedTarget ? "#" + group.querySelector("summary").id : location.href;
-    replace({...state, groups: expanded, point: null, focusId: null}, url);
-  });
-
+  // Pass the reading position only to the translation requested in this tab.
   try {
     const transfer = JSON.parse(sessionStorage.getItem(transferKey));
     sessionStorage.removeItem(transferKey);
     if (transfer?.to === location.href && document.referrer &&
-        new URL(document.referrer).pathname === transfer.from) replace(transfer.state);
+        new URL(document.referrer).pathname === transfer.from) replace(transfer.entry);
   } catch { /* Storage is optional. */ }
 
-  window.addEventListener("pagehide", () => replace(snapshot()));
-  // Apply saved groups before the browser reports a native fragment reveal.
-  // Otherwise an early toggle event can overwrite the other expanded groups.
-  applyGroups(current().groups);
-  const restoreEntry = () => restore(current());
-  window.addEventListener("pageshow", event => { if (!event.persisted) restoreEntry(); });
-  window.addEventListener("popstate", restoreEntry);
+  window.addEventListener("pagehide", () => remember());
+  window.addEventListener("pageshow", event => { if (!event.persisted) restore(); });
+  window.addEventListener("popstate", restore);
 })();

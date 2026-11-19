@@ -6,9 +6,8 @@
       "a Bad Verifier"
     ],
     "opening": [
-      "Once the agent finishes, this referee looks over the task prompt, the agent environment and the deliverables, produces a score, and makes the call: pass or fail. In evaluation, that call fills one cell on a leaderboard. In training, it is the reward that drives the model's updates.",
-      "A bad call costs very different amounts in the two settings. In evaluation, a verifier that gets it wrong once leaves one number on the report card off. In training, a verifier that gets one kind of case wrong opens a gap, and the model runs straight through it.",
-      "The optimizer never gives the task author the benefit of the doubt: whatever the grading leaves out, the model drops first; whatever the grading over-asks for, the model chases. By the end, the agent hasn't learned to do the work well. It has learned exactly how to play your grading script.",
+      "Writing a good task for an agent is only half the job. The other half is giving it a verifier you can trust. Once the agent finishes, this referee looks over the task prompt, the agent environment and the deliverables, produces a score, and makes the call: pass or fail. In evaluation, that call fills one cell on a leaderboard. In training, it is the reward that drives the model's updates.",
+      "A bad call costs very different amounts in the two settings. In evaluation, a verifier that gets it wrong once leaves one number on the report card off. In training, a verifier that gets one kind of case wrong opens a gap, and the model runs straight through it. The optimizer never gives the task author the benefit of the doubt: whatever the grading leaves out, the model drops first; whatever the grading over-asks for, the model chases. By the end, the agent hasn't learned to do the work well. It has learned exactly how to play your grading script.",
       "In principle, we ask only one thing of a verifier, so plain it sounds almost trivial:",
       "This is the same requirement as \"outcome validity\" in the ABC checklist [\\[1\\]](https://arxiv.org/abs/2507.02825). It sounds simple, but in practice there are countless ways to break it. Worst of all, most of the time the verifier raises no error at all. It calmly produces a neatly formatted score sheet, with the problem buried inside.",
       "The 40 rows below take these failures apart one at a time. Each row records four things: what happens, which part is at fault, what the model learns from it, and an example."
@@ -114,9 +113,7 @@
             "learning": "To protect these minor points first and the substance second",
             "example": "An analysis report gets every conclusion right but uses a level-2 heading where level 1 was asked. This criterion is must-pass, so the whole task fails. The more requirements like this among the must-pass criteria, the more likely a fully correct submission is dragged down by a misjudgment on one of them"
           }
-        ],
-        "featured": 3,
-        "example_title": "When sorting by name becomes a requirement"
+        ]
       },
       {
         "name": "Incorrect work is passed",
@@ -199,9 +196,7 @@
             "learning": "Noise",
             "example": "A long report contradicts the source data in one place in a middle section. The judge model reads only the beginning and the end closely and judges \"data is consistent\" as met"
           }
-        ],
-        "featured": 3,
-        "example_title": "Invented numbers that add up"
+        ]
       },
       {
         "name": "The score points the wrong way",
@@ -256,9 +251,7 @@
             "learning": "They can't both be met; the model can only guess which one counts",
             "example": "One criterion uses a programmatic check with a tolerance and judges a value met; a later criterion uses a judge model with literal comparison and judges the same value not met"
           }
-        ],
-        "featured": 1,
-        "example_title": "A near miss gets the same score as a barely attempted task"
+        ]
       },
       {
         "name": "The result can't be trusted",
@@ -355,9 +348,7 @@
             "learning": "No direct effect on the model, but the score can't be checked",
             "example": "Deliverables aren't archived; grading dependencies aren't version-pinned, and regrading some time later gives a different result"
           }
-        ],
-        "featured": 6,
-        "example_title": "The grader breaks and the submission gets zero"
+        ]
       }
     ],
     "discussionTitle": "Looking back: only two kinds of error",
@@ -400,64 +391,61 @@
       "switch": "中文",
       "switch_lang": "zh-CN",
       "switch_label": "切换到中文",
-      "four": "Four ways grading goes wrong",
-      "list": "Full checklist · 40 cases",
-      "scheme": "A verifier has five parts, plus the agent environment.",
-      "example": "Example · ",
-      "learn": "What the model learns · ",
+      "list": "40 cases",
+      "scheme": "A verifier has five parts, plus the agent environment. The \"Part at fault\" column uses these six terms.",
+      "example": "Example",
+      "learn": "What the model learns",
       "part": "Part at fault",
-      "term_example": ". E.g. ",
-      "comparison": "False fails and false passes",
-      "back": "Close checklist and return to article",
       "notes": "Notes",
       "reference": "Reference",
-      "context": "What a grading mistake costs",
-      "browse": "Browse all 40 cases"
-    },
-    "lead": "Writing a good task for an agent is only half the job. The other half is giving it a verifier you can trust."
+      "intro": "Introduction",
+      "guide": "How to read the table",
+      "group_intro": "The 40 rows fall into four groups, by the direction in which things go wrong.",
+      "conclusion": "Conclusion",
+      "behavior": "Behavior"
+    }
   },
   "zh": {
     "title_lines": [
-      "评分器为什么会判错？"
+      "Verifier 为什么会判错？"
     ],
     "opening": [
-      "作答一结束，这个裁判要翻看题面、作答环境和交付物，给出一个分数，再拍板“过”还是“不过”。放在评测里，它决定榜单上的一格；放到训练里，它就是驱动模型更新的 reward。",
-      "同样是裁判吹偏哨，这两处的代价完全不在一个量级。评测里 verifier 错一次，最多是成绩单上某个数字不准；训练里 verifier 只要错一类，模型就会顺着这个口子一路狂奔。",
-      "优化器从不体谅出题人的本意：评分漏掉什么，模型就第一时间省掉什么；评分多要什么，模型就拼命迎合什么。练到最后，agent 没学会怎么把活干好，倒先学会了怎么精准拿捏你的评分脚本。",
+      "给 agent 出了一道好题，事情其实只做了一半——另一半，是给它配一个靠谱的 verifier。agent 完成任务后，这个裁判要翻看题面、作答环境和交付物，给出一个分数，再拍板“过”还是“不过”。放在评测里，它决定榜单上的一格；放到训练里，它就是驱动模型更新的 reward。",
+      "同样是裁判吹偏哨，这两处的代价完全不在一个量级。评测里 verifier 错一次，最多是成绩单上某个数字不准；训练里 verifier 只要错一类，模型就会顺着这个口子一路狂奔。优化器从不体谅出题人的本意：评分漏掉什么，模型就第一时间省掉什么；评分多要什么，模型就拼命迎合什么。练到最后，agent 没学会怎么把活干好，倒先学会了怎么精准拿捏你的评分脚本。",
       "按理说，我们对 verifier 只有一条根本要求，朴素得近乎废话：",
-      "这和 ABC 检查清单 [\\[1\\]](https://arxiv.org/abs/2507.02825) 里的“结果有效性”是同一回事。听起来简单明了，真落到工程里却有无数种破法——最麻烦的是，大多数时候 verifier 根本不会报错，照样稳稳当当地吐出一张格式工整的分数表，把坑藏得严严实实。",
+      "这和 ABC 检查清单 [\\[1\\]](https://arxiv.org/abs/2507.02825) 里的 outcome validity 是同一回事。听起来简单明了，真落到工程里却有无数种破法——最麻烦的是，大多数时候 verifier 根本不会报错，照样稳稳当当地吐出一张格式工整的分数表，把坑藏得严严实实。",
       "下面这 40 条，把这些坑逐一拆开，每一条记下四件事：出了什么现象、坏在哪个部分、模型会顺着学到什么，外加一个例子。"
     ],
     "quote": "通过，当且仅当题目的目的达成了。",
     "terms": [
       [
-        "评分项",
+        "Criteria",
         "逐条查什么，含判定时用到的期望值",
-        "一条评分标准、一个测试用例"
+        "rubric 里的一项、一个测试用例"
       ],
       [
-        "判定器",
+        "Judging method",
         "每个评分项怎么判",
-        "程序检查、评判模型、带工具的评判模型"
+        "程序检查、judge model、能调用工具的 judge model"
       ],
       [
-        "证据抽取",
-        "把交付物里的哪些内容交给判定器",
+        "Evidence extraction",
+        "从交付物中取出哪些内容，供判定时使用",
         "文件解码、页面渲染、指定交付物位置"
       ],
       [
-        "聚合规则",
+        "Aggregation",
         "各评分项的结果怎么变成总分和通过结论",
         "权重、必过项、通过线、故障怎么记分"
       ],
       [
-        "评分环境",
+        "Grading environment",
         "verifier 给作答打分时在哪跑、用什么跑",
-        "镜像和依赖、时限、评判模型的参数"
+        "镜像和依赖、时限、judge model 的参数"
       ],
       [
-        "作答环境",
-        "作答方做题时能接触到的东西，不属于 verifier，但要和它一起看",
+        "Agent environment",
+        "agent 做题时能接触到的东西，不属于 verifier，但要和它一起看",
         "初始文件和状态、网络、权限"
       ]
     ],
@@ -469,69 +457,67 @@
           {
             "n": 1,
             "behavior": "评分项的条件在题面和公开材料里找不到，或只露了一半",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "猜出题人没说出口的设定；猜不到时分数只是噪声",
             "example": "题面只说“把订单按月汇总成一张表”，评分项却要求恰好 12 行、列名必须叫“月份”。加了季度小计行的作答被判不满足。常见的是写死的条数、键名、表名"
           },
           {
             "n": 2,
             "behavior": "按字面比对，拒掉意思相同的另一种写法",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "对齐某一种字面形态",
             "example": "作答写“12.5%”，期望值是“0.125”；作答写公司简称，期望值是全称。都被判不满足"
           },
           {
             "n": 3,
             "behavior": "只到一个固定位置、固定名称或固定文件形态去取证，换了就找不到",
-            "part": "证据抽取",
+            "part": "Evidence extraction",
             "learning": "照固定模板交付，不敢换结构",
             "example": "交付物存成了另一个文件名，或者在表前多加了一行说明，verifier 报告找不到交付物"
           },
           {
             "n": 4,
             "behavior": "参考答案里碰巧的做法被写成评分项",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "复现某一份答案的做法",
             "example": "题面要“清洗后的客户名单”。参考答案碰巧按姓名排序，评分项就要求同样的顺序"
           },
           {
             "n": 5,
             "behavior": "公开材料支持多种合理口径，评分项只认其中一种",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "赌口径",
             "example": "两份原始表里同一客户的地址不一样，题面没说以哪份为准，评分项只认其中一份"
           },
           {
             "n": 6,
             "behavior": "程序检查假定了题面没声明的接口，或用的替身数据太窄",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "迎合程序检查的调用方式",
             "example": "题面要“写一个去重函数”，没规定参数顺序和返回类型。程序检查按某一种顺序调用，返回列表而不是集合就报错"
           },
           {
             "n": 7,
             "behavior": "期望值本身是错的",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "向错误答案靠拢",
             "example": "期望值由出题时的一段脚本算出，脚本把含税价当成了不含税价。按题面口径算对的作答被判不满足，犯同样错的作答被判满足"
           },
           {
             "n": 8,
-            "behavior": "评判模型自己加码，查了评分项没问的东西",
-            "part": "判定器",
+            "behavior": "judge model 自己加码，查了评分项没问的东西",
+            "part": "Judging method",
             "learning": "多做没要求的事来自保",
-            "example": "评分项只问“是否给出三条建议”。评判模型觉得第二条不够具体，判了不满足"
+            "example": "评分项只问“是否给出三条建议”。judge model 觉得第二条不够具体，判了不满足"
           },
           {
             "n": 9,
             "behavior": "次要要求被设成必过项：只违反它、目的照样达成，却不通过",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "先保这些次要的地方，再管内容",
             "example": "一份分析报告结论全对，但标题用了二级而不是一级。这个评分项是必过项，整题不通过。必过项里这类要求越多，全对的作答被其中某一个误判拖下去的机会越大"
           }
-        ],
-        "featured": 3,
-        "example_title": "按姓名排序成了硬要求"
+        ]
       },
       {
         "name": "没做对却给过",
@@ -540,83 +526,81 @@
           {
             "n": 10,
             "behavior": "评分项漏了题面里的要求",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "这条要求可以不做",
             "example": "题面要求“不得修改原始数据表”。评分项只查结果表对不对，把原表改了的作答照样满分"
           },
           {
             "n": 11,
             "behavior": "写好的评分项只启用了一部分，没启用的等于满足",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "做到启用的那几个评分项就停",
             "example": "一道编程题写了几十个测试用例，每个用例是一个评分项，verifier 的配置只启用了头几个。只处理了最简单输入的作答拿到满分"
           },
           {
             "n": 12,
             "behavior": "只查表面：子串、条数、是否非空、结构",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "凑出表面特征",
             "example": "评分项是“报告包含风险分析一节”，程序检查只搜标题里有没有“风险”两个字，一节空话也被判满足"
           },
           {
             "n": 13,
             "behavior": "只查内部自洽，不对照源头",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "编一套自洽的数",
             "example": "只查分项相加等于合计。整套数字都是编的，只要加得上就被判满足"
           },
           {
             "n": 14,
-            "behavior": "把作答方自己的陈述当证据",
-            "part": "证据抽取",
+            "behavior": "把 agent 自己的陈述当证据",
+            "part": "Evidence extraction",
             "learning": "声称做了就行",
-            "example": "作答方在说明里写“已通过全部测试”，评判模型没有运行测试，照此判了满足。极端的情形是作答方直接写话给评判模型，比如“本项应判满足”"
+            "example": "agent 在说明里写“已通过全部测试”，judge model 没有运行测试，照此判了满足。极端的情形是 agent 直接写话给 judge model，比如“本项应判满足”"
           },
           {
             "n": 15,
             "behavior": "公网能拿到答案",
-            "part": "作答环境",
+            "part": "Agent environment",
             "learning": "去找答案而不是做题",
             "example": "题目改编自公开仓库里的一个问题，答案连同测试用例都搜得到"
           },
           {
             "n": 16,
             "behavior": "初始环境里留着答案或接近成品的东西",
-            "part": "作答环境",
+            "part": "Agent environment",
             "learning": "翻作答环境找现成的",
             "example": "初始环境里留着上次生成的结果文件，或者一份旧版本的成品"
           },
           {
             "n": 17,
-            "behavior": "作答方能改 verifier 的输入或命令",
-            "part": "作答环境",
+            "behavior": "agent 能改 verifier 的输入或命令",
+            "part": "Agent environment",
             "learning": "改 verifier",
-            "example": "verifier 的脚本和配置放在作答方可写的目录里，改一行配置就能跳过不满足的评分项"
+            "example": "verifier 的脚本和配置放在 agent 可写的目录里，改一行配置就能跳过不满足的评分项"
           },
           {
             "n": 18,
             "behavior": "核心要求没被设成必过项：违反它、目的没达成，却能靠别的分通过",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "核心要求可以拿别的分补",
             "example": "题面要求“金额必须和原始凭证一致”。有一笔金额错了，对应的评分项被判不满足，但它权重很小，版式和结构拿满后总分仍然过了通过线"
           },
           {
             "n": 19,
             "behavior": "程序检查实现的不是评分项写的那件事",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "按程序检查实际查的做，不按要求做",
             "example": "评分项是“所有金额保留两位小数”，程序检查只查了第一张表，后面几张表的违规都放过了。反过来也有：程序检查顺带查了评分项没提的列宽，把合格的作答判成不满足"
           },
           {
             "n": 20,
-            "behavior": "评判模型漏看，或宽严不准",
-            "part": "判定器",
+            "behavior": "judge model 漏看，或宽严不准",
+            "part": "Judging method",
             "learning": "噪声",
-            "example": "一份长报告在中间一节有一处和原始数据矛盾，评判模型只细读了开头和结尾，把“数据一致”判成满足"
+            "example": "一份长报告在中间一节有一处和原始数据矛盾，judge model 只细读了开头和结尾，把“数据一致”判成满足"
           }
-        ],
-        "featured": 3,
-        "example_title": "数字都是编的，合计却对得上"
+        ]
       },
       {
         "name": "分数指错方向",
@@ -625,55 +609,53 @@
           {
             "n": 21,
             "behavior": "权重和重要程度不成比例：核心要求占分小，次要要求占分大",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "省事做法几乎一样划算",
             "example": "题目的核心要求是跨表核对，占分很小。只把表抄一遍、排好版的作答离通过线只差一点"
           },
           {
             "n": 22,
             "behavior": "不通过的作答都是同一个分，差一点和差很多分不开",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "没通过时不知道往哪改",
             "example": "聚合规则是“任何一个必过项不满足，总分就压到通过线下的一个固定分”。两份作答都没通过，一份只差一个小数位，一份几乎没做，得分一样"
           },
           {
             "n": 23,
             "behavior": "评分项全是二值，没有部分分",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "做到一半和没做一样",
             "example": "“完成全部十张表的核对”只有满足和不满足。核对了九张的和一张没做的同分"
           },
           {
             "n": 24,
             "behavior": "有些评分项谁都能满足，不提供区分",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "没有信号，只稀释总分",
             "example": "“交付目录存在”“文件能打开”这类评分项，连原样交回初始环境也被判满足"
           },
           {
             "n": 25,
             "behavior": "同一个评分项的部分分、权重和必过要求对不上",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "同一表现得到互相矛盾的信号",
             "example": "某个评分项允许给部分分，可它又是必过项、要拿满分才算满足，拿到部分分就等于不满足。又如一个权重为零的评分项却是必过项"
           },
           {
             "n": 26,
             "behavior": "同一个错误在多个评分项上扣分",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "小错被放大，分数不反映离目的多远",
             "example": "一个数字算错，“数值正确”“结论正确”“图表正确”三个评分项一起不满足"
           },
           {
             "n": 27,
             "behavior": "两个评分项对同一件事的标准互相矛盾",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "没法同时满足，只能猜哪一个算数",
-            "example": "一个评分项由程序检查按容差判某个数值满足，后面一个评分项由评判模型按字面比对，判同一个数值不满足"
+            "example": "一个评分项由程序检查按容差判某个数值满足，后面一个评分项由 judge model 按字面比对，判同一个数值不满足"
           }
-        ],
-        "featured": 1,
-        "example_title": "差一点和几乎没做，得分相同"
+        ]
       },
       {
         "name": "结论不可信",
@@ -681,103 +663,101 @@
         "rows": [
           {
             "n": 28,
-            "behavior": "评分项交给了判不了它的判定器：要算、要跑的给了只读文本的评判模型，要理解语义的给了程序检查",
-            "part": "判定器",
+            "behavior": "评分项交给了判不了它的 judge：要算、要跑的给了只读文本的 judge model，要理解语义的给了程序检查",
+            "part": "Judging method",
             "learning": "做对了也拿不到分；或者堆关键词就能拿分",
-            "example": "要重算上千行合计才能确认的评分项，让评判模型读文本判。“语气是否得体”交给程序检查做关键词匹配，用了同义词的被判不满足，堆了关键词的空话被判满足"
+            "example": "要重算上千行合计才能确认的评分项，让 judge model 读文本判。“语气是否得体”交给程序检查做关键词匹配，用了同义词的被判不满足，堆了关键词的空话被判满足"
           },
           {
             "n": 29,
-            "behavior": "判定器拿不到需要的证据",
-            "part": "证据抽取",
+            "behavior": "judge 拿不到需要的证据",
+            "part": "Evidence extraction",
             "learning": "这类要求实际不计分",
-            "example": "要看图表是否清晰，判定器只拿到文字；要核“其余部分没改动”，判定器拿不到原稿；长输出被截断"
+            "example": "要看图表是否清晰，judge 只拿到文字；要核“其余部分没改动”，judge 拿不到原稿；长输出被截断"
           },
           {
             "n": 30,
             "behavior": "程序检查找不到要查的东西时，默认算满足。它和第 [3](#v03) 条是一对：同样是找不到，那边默认不满足，这边默认满足",
-            "part": "证据抽取",
+            "part": "Evidence extraction",
             "learning": "换个结构就躲过程序检查",
             "example": "程序检查按表头名找列。作答把表头换了个说法，程序检查找不到就不出结论，这个评分项当作满足"
           },
           {
             "n": 31,
             "behavior": "读到的是旧值或错的对象",
-            "part": "证据抽取",
+            "part": "Evidence extraction",
             "learning": "改表面不改结果",
             "example": "表格里公式改了没重算，程序检查读到的是缓存的旧结果；或者读到了同名的另一张表"
           },
           {
             "n": 32,
             "behavior": "同一份作答重评，结论改变",
-            "part": "判定器",
+            "part": "Judging method",
             "learning": "噪声",
             "example": "同一份作答评两次，“论证充分”这个评分项第一次判满足，第二次判不满足，总分正好跨过通过线"
           },
           {
             "n": 33,
             "behavior": "主观的评分项没有标尺",
-            "part": "评分项",
+            "part": "Criteria",
             "learning": "噪声",
-            "example": "评分项只写“表达清晰”，没说什么算清晰，评判模型两次各有各的理解"
+            "example": "评分项只写“表达清晰”，没说什么算清晰，judge model 两次各有各的理解"
           },
           {
             "n": 34,
             "behavior": "评分自己出了故障，却算成作答失败，记零分",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "被罚的不是作答",
             "example": "评分时依赖装不上，程序检查根本没跑，结果记成零分"
           },
           {
             "n": 35,
             "behavior": "作答失败，却算成评分故障，不出分",
-            "part": "聚合规则",
+            "part": "Aggregation",
             "learning": "失败不被计入",
             "example": "作答把作答环境改坏，程序检查起不来，被归成“评分故障”后重试或剔除"
           },
           {
             "n": 36,
             "behavior": "verifier 给出的分数和它实际跑的情况对不上",
-            "part": "评分环境",
+            "part": "Grading environment",
             "learning": "分数和作答无关",
-            "example": "有两种：评分没跑完却照常出分，或跑完了结果却被后续步骤作废。比如评判模型的输出被截断，解析出半截结果照常计分；一部分程序检查没执行，按全部满足出分；评分项标着由程序检查判，那段程序检查其实是空的，改由评判模型判，结果里看不出来；评分已完成，收尾步骤超时把结果作废"
+            "example": "有两种：评分没跑完却照常出分，或跑完了结果却被后续步骤作废。比如 judge model 的输出被截断，解析出半截结果照常计分；一部分程序检查没执行，按全部满足出分；评分项标着由程序检查判，那段程序检查其实是空的，改由 judge model 判，结果里看不出来；评分已完成，收尾步骤超时把结果作废"
           },
           {
             "n": 37,
             "behavior": "评分要现场联网下载：下载失败就评不了，下到的版本变了结果就变",
-            "part": "评分环境",
+            "part": "Grading environment",
             "learning": "不直接影响模型，但结果取决于网络",
             "example": "评分时现场安装依赖，下载失败这次就评不了；下载慢的时候把评分时限耗尽"
           },
           {
             "n": 38,
             "behavior": "评分环境自身不完整",
-            "part": "评分环境",
+            "part": "Grading environment",
             "learning": "不直接影响模型，但出不了结论",
             "example": "评分环境缺编译依赖、找不到工具链；程序检查自己报错"
           },
           {
             "n": 39,
-            "behavior": "绑定某个评判模型或它的输出额度",
-            "part": "评分环境",
-            "learning": "不直接影响模型，但换个评判模型就评不了",
-            "example": "调用评判模型时用了只有一种模型支持的参数；评判模型思考太长，把输出额度用完，没给出结论"
+            "behavior": "绑定某个 judge model 或它的输出额度",
+            "part": "Grading environment",
+            "learning": "不直接影响模型，但换个 judge model 就评不了",
+            "example": "调用 judge model 时用了只有一种模型支持的参数；judge model 思考太长，把输出额度用完，没给出结论"
           },
           {
             "n": 40,
             "behavior": "分数没法复核：交付物和评分依赖没固定下来，事后重评不了，或重评结果不同",
-            "part": "评分环境",
+            "part": "Grading environment",
             "learning": "不直接影响模型，但分数无法复核",
             "example": "交付物没归档；评分依赖没固定版本，过一阵再评结果不同"
           }
-        ],
-        "featured": 6,
-        "example_title": "评分器出了故障，作答却得零分"
+        ]
       }
     ],
     "discussionTitle": "回头看这 40 条：只有两种错",
     "discussionBefore": [
-      "根本要求是“当且仅当”，所以 verifier 只会以两种方式出错：目的达成了，却判不通过，这是错杀；目的没达成，却判通过，这是放水。"
+      "根本要求是“当且仅当”，所以 verifier 只会以两种方式出错：目的达成了，却判不通过，这是 false fail；目的没达成，却判通过，这是 false pass。"
     ],
     "comparison": [
       [
@@ -797,13 +777,13 @@
       ]
     ],
     "comparisonLabels": [
-      "错杀",
-      "放水"
+      "false fail",
+      "false pass"
     ],
     "discussionAfter": [
-      "后两组也是这两种错，只是换了地方。第三组错在分数的高低上：差一点的和几乎没做的同分（第 [22](#v22){:#ve-ref-argument-1-v22-0}、[23](#v23){:#ve-ref-argument-1-v23-0} 条），是对差一点那份的错杀；不碰核心也能拿到接近通过的分（第 [21](#v21){:#ve-ref-argument-1-v21-0} 条），是对省事那份的放水。第四组是连错往哪边都不知道：同一份作答重评，结论会变（第 [32](#v32){:#ve-ref-argument-1-v32-0} 条）；评分自己的故障算成作答失败是错杀（第 [34](#v34){:#ve-ref-argument-1-v34-0} 条），作答失败算成评分故障是放水（第 [35](#v35){:#ve-ref-argument-1-v35-0} 条）。",
-      "**错杀和放水不在一根轴上。** 一个来自评分比目的窄，一个来自评分比目的宽，它们可以同时出现在同一套 verifier 的不同评分项上。所以整体调严，放水少了，错杀就多了；整体调松，反过来。要两种错一起少，调的不是严和松，而是评分认的东西和目的对不对得上。换判定器也是一样：把一个评分项从评判模型换给程序检查，换掉的是错杀和放水各出在哪里，不是让它们消失。",
-      "**两种错教坏模型的方式不同。** 人们谈 reward hacking，说的是放水：模型学会偷工，至少在结果上还看得出来。错杀更安静：模型没有作弊，只是做法越来越窄，越来越像评分认的那一份答案。"
+      "后两组也是这两种错，只是换了地方。第三组错在分数的高低上：差一点的和几乎没做的同分（第 [22](#v22){:#ve-ref-argument-1-v22-0}、[23](#v23){:#ve-ref-argument-1-v23-0} 条），是对差一点那份的 false fail；不碰核心也能拿到接近通过的分（第 [21](#v21){:#ve-ref-argument-1-v21-0} 条），是对省事那份的 false pass。第四组是连错往哪边都不知道：同一份作答重评，结论会变（第 [32](#v32){:#ve-ref-argument-1-v32-0} 条）；评分自己的故障算成作答失败是 false fail（第 [34](#v34){:#ve-ref-argument-1-v34-0} 条），作答失败算成评分故障是 false pass（第 [35](#v35){:#ve-ref-argument-1-v35-0} 条）。",
+      "**false fail 和 false pass 不在一根轴上。** 一个来自评分比目的窄，一个来自评分比目的宽，它们可以同时出现在同一套 verifier 的不同评分项上。所以整体调严，false pass 少了，false fail 就多了；整体调松，反过来。要两种错一起少，调的不是严和松，而是评分认的东西和目的对不对得上。换 judge 也是一样：把一个评分项从 judge model 换给程序检查，换掉的是 false fail 和 false pass 各出在哪里，不是让它们消失。",
+      "**两种错教坏模型的方式不同。** 人们谈 reward hacking，说的是 false pass：模型学会偷工，至少在结果上还看得出来。false fail 更安静：模型没有作弊，只是做法越来越窄，越来越像评分认的那一份答案。"
     ],
     "notes": [
       "表里的例子都是为说明而构造的，不来自真实题目。",
@@ -815,20 +795,18 @@
       "switch": "English",
       "switch_lang": "en",
       "switch_label": "Switch to English",
-      "four": "评分会在哪里出错",
-      "list": "完整清单 · 40 条",
-      "scheme": "一套 verifier 由五个部分组成，再加上作答环境。",
-      "example": "例子　",
-      "learn": "模型会学到什么　",
+      "list": "40 条",
+      "scheme": "一套 verifier 由五个部分组成，再加上作答环境。表里“出问题的部分”一栏用的就是这六个词。",
+      "example": "例子",
+      "learn": "模型会学到什么",
       "part": "出问题的部分",
-      "term_example": "。例：",
-      "comparison": "错杀和放水",
-      "back": "收起清单，返回正文",
       "notes": "说明",
       "reference": "参考文献",
-      "context": "一次误判的代价",
-      "browse": "浏览全部 40 个案例"
-    },
-    "lead": "给 agent 出了一道好题，事情其实只做了一半——另一半，是给它配一个靠谱的 verifier。"
+      "intro": "引言",
+      "guide": "怎么读这张表",
+      "group_intro": "40 条按坏的方向分成四组。",
+      "conclusion": "结语",
+      "behavior": "现象"
+    }
   }
 }

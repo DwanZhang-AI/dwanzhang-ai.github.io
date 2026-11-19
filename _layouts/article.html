@@ -2,7 +2,7 @@
 {% assign story = site.data.verifier[page.language] -%}
 {% if page.language == 'zh' -%}
   {% assign language = 'zh-CN' -%}
-  {% assign description = '从 40 个例子看 agent 评分器会怎样误判，以及模型可能从中学到什么。' -%}
+  {% assign description = '从 40 个例子看 verifier 会怎样误判 agent 的作答，以及模型可能从中学到什么。' -%}
   {% assign english = page.alternate -%}
   {% assign chinese = page.url -%}
 {% else -%}

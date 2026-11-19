@@ -19,8 +19,8 @@ html, body { margin: 0; padding: 0; }
 #verifier-essay:lang(zh-CN) { line-height: 1.75; line-break: strict; }
 :where(#verifier-essay) :where(h1, h2, h3, h4, p, dl, dd, blockquote) { margin: 0; }
 #verifier-essay a { color: inherit; text-underline-offset: .2em; text-decoration-thickness: 1px; }
-#verifier-essay :is(a, summary):focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
-#verifier-essay :where([id], summary) { scroll-margin-top: 4.25rem; }
+#verifier-essay a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+#verifier-essay [id] { scroll-margin-top: 4.25rem; }
 
 .ve-mast {
   position: sticky;
@@ -35,7 +35,7 @@ html, body { margin: 0; padding: 0; }
   background: #fff;
   border-bottom: 1px solid var(--rule);
 }
-.ve-brand, .ve-language, .ve-index-link, .ve-back {
+.ve-brand, .ve-language, .ve-back {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -44,10 +44,11 @@ html, body { margin: 0; padding: 0; }
 .ve-brand span { font-weight: 400; color: #737373; }
 .ve-language { justify-content: center; min-width: 44px; font-size: .875rem; text-decoration: none; }
 .ve-reading {
-  max-width: calc(var(--measure) + var(--left) + var(--right));
+  max-width: calc(68rem + var(--left) + var(--right));
   margin-inline: auto;
   padding: 0 var(--right) max(3rem, env(safe-area-inset-bottom)) var(--left);
 }
+.ve-reading > * { max-width: var(--measure); margin-inline: auto; }
 .ve-opening {
   padding: clamp(1.6rem, 5vw, 3.4rem) 0 clamp(1.3rem, 3.4vw, 2rem);
   border-bottom: 1px solid var(--ink);
@@ -62,15 +63,10 @@ html, body { margin: 0; padding: 0; }
 }
 .ve-opening h1 span { display: block; }
 :lang(zh-CN) > .ve-reading h1 { line-height: 1.18; letter-spacing: -.018em; }
-.ve-opening .ve-lead { text-wrap: balance; max-width: 51ch; font-size: 1.125rem; line-height: 1.55; }
-:lang(zh-CN) > .ve-reading .ve-lead { line-height: 1.68; }
-.ve-index-link { margin-top: .45rem; gap: .5rem; font-size: .9rem; font-weight: 550; }
-.ve-index-link span { display: inline-block; text-decoration: none; }
-
-.ve-section, #ve-checklist { margin-top: clamp(1.8rem, 5vw, 3rem); }
+.ve-section { margin-top: clamp(1.65rem, 5vw, 3rem); }
 .ve-reading h2 { font-size: clamp(1.4rem, 3vw, 1.95rem); line-height: 1.28; letter-spacing: -.025em; }
-.ve-reading h3 { font-size: 1.25rem; line-height: 1.4; }
-.ve-section > p, #ve-checklist > p { margin-top: .95rem; }
+.ve-reading h3 { margin: 1.7rem 0 .6rem; font-size: 1.25rem; line-height: 1.4; }
+.ve-section > p { margin-top: .95rem; }
 .ve-section blockquote {
   margin-top: 1rem;
   border-inline-start: 2px solid var(--ink);
@@ -78,54 +74,72 @@ html, body { margin: 0; padding: 0; }
   font-size: 1.15rem;
   font-weight: 600;
 }
-.ve-vignette { padding: 1.2rem 0; border-bottom: 1px solid var(--rule); }
-.ve-case-link { display: block; width: fit-content; max-width: 100%; min-height: 44px; text-decoration: none; }
-.ve-case-kicker { display: flex; align-items: baseline; gap: .55rem; font-size: .8125rem; font-weight: 450; color: var(--secondary); }
-.ve-case-kicker small, .ve-group-range { font: 500 .8rem/1.4 var(--mono); font-variant-numeric: tabular-nums; }
-.ve-case-kicker small { text-decoration: underline; text-underline-offset: .2em; }
-.ve-case-title { display: block; margin: .26rem 0 .4rem; font-size: clamp(1.16rem, 2.3vw, 1.35rem); line-height: 1.35; text-wrap: pretty; }
-.ve-vignette p { color: #303030; }
-@media (hover: hover) {
-  .ve-case-link:hover .ve-case-title, .ve-language:hover { text-decoration: underline; }
+.ve-table {
+  width: 100%;
+  margin-top: .8rem;
+  border-collapse: collapse;
+  font-size: .9375rem;
+  line-height: 1.55;
 }
-
-#ve-checklist { border-top: 1px solid var(--ink); padding-top: 1.5rem; }
-#ve-checklist > [data-position="checklist-intro"] { margin: .75rem 0 1.1rem; }
-.ve-group { border-top: 1px solid var(--rule); }
-.ve-group:last-of-type { border-bottom: 1px solid var(--rule); }
-.ve-group > summary {
-  display: grid;
-  grid-template-columns: max-content 1fr auto;
-  gap: .85rem;
-  align-items: center;
-  min-height: 3.4rem;
-  padding-block: .7rem;
-  cursor: pointer;
-  list-style: none;
+.ve-table :is(th, td) {
+  border-top: 1px solid var(--rule);
+  padding: .65rem .6rem;
+  text-align: start;
+  vertical-align: top;
+  overflow-wrap: anywhere;
 }
-.ve-group > summary::-webkit-details-marker { display: none; }
-.ve-group-range, .ve-group-description { color: var(--secondary); }
-.ve-group-name { font-size: 1rem; font-weight: 600; line-height: 1.4; }
-.ve-plus::before { content: "+"; font: 400 1.2rem/1 var(--mono); }
-.ve-group[open] > summary .ve-plus::before { content: "−"; }
-.ve-group-description { margin: 0 0 1rem; font-size: .9375rem; }
-.ve-item { padding-block: 1rem; border-top: 1px solid var(--rule); }
-.ve-item h4 { font-size: 1.0625rem; line-height: 1.5; margin-bottom: .5rem; }
-.ve-item h4 > a:first-child { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; color: var(--secondary); font: 500 .8rem/1.4 var(--mono); }
-.ve-item p { margin-top: .35rem; }
-.ve-item .ve-meta { font-size: .9375rem; color: var(--secondary); }
-.ve-back { font-size: .875rem; }
-#ve-checklist > h3 { margin: 1.8rem 0 .65rem; }
-.ve-terms, .ve-comparison { font-size: .9375rem; }
-.ve-terms dt, .ve-comparison dt { margin-top: .7rem; font-weight: 600; }
-.ve-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; }
+.ve-table th { font-weight: 600; }
+.ve-table thead th { color: var(--secondary); }
+.ve-table tr > :first-child { padding-inline-start: 0; }
+.ve-table tr > :last-child { padding-inline-end: 0; }
+.ve-groups-guide th:first-child { width: 37%; }
+.ve-groups-guide a { display: inline-block; }
+.ve-field-label { display: none; }
+.ve-case-table { table-layout: fixed; }
+.ve-case-table thead th:first-child { width: 3.2rem; }
+.ve-case-table thead th:nth-child(2) { width: 22%; }
+.ve-case-table thead th:nth-child(3) { width: 15%; }
+.ve-case-table thead th:nth-child(4) { width: 21%; }
+.ve-permalink { font: 500 .8125rem/1.5 var(--mono); white-space: nowrap; }
+.ve-back { display: flex; width: fit-content; font-size: .875rem; }
+.ve-group + .ve-group { margin-top: 2rem; }
+.ve-comparison th:first-child { width: 22%; }
 #ve-notes { border-top: 1px solid var(--rule); margin-top: 2.5rem; color: var(--secondary); font-size: .875rem; }
 #ve-notes h2 { margin: 1rem 0 .35rem; font-size: 1rem; }
-#ve-notes p + p { margin-top: .45rem; }
+#ve-notes ul { padding-inline-start: 1.2rem; margin-block: .3rem 0; }
+#ve-notes li + li { margin-top: .35rem; }
+
+@media (min-width: 58rem) {
+  #ve-checklist { max-width: none; }
+  #ve-checklist > h2, .ve-group h3 { max-width: var(--measure); margin-inline: auto; }
+}
+@media (max-width: 57.999rem) {
+  .ve-case-table, .ve-case-table tbody { display: block; }
+  .ve-case-table thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .ve-case-table tr.ve-item {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: .45rem .65rem;
+    border-top: 1px solid var(--rule);
+    padding-block: 1rem;
+  }
+  .ve-case-table .ve-item > * { border: 0; padding: 0; }
+  .ve-item td { grid-column: 1 / -1; font-size: 1rem; line-height: 1.6; }
+  .ve-item td.ve-behavior { grid-column: 2; align-self: center; font-size: 1.0625rem; font-weight: 600; }
+  .ve-permalink { display: inline-flex; min-width: 44px; min-height: 44px; align-items: center; }
+  .ve-case-table .ve-field-label { display: inline; margin-inline-end: .45rem; font-size: .875rem; font-weight: 600; color: var(--secondary); }
+}
 @media (max-width: 35rem) {
   .ve-opening h1 { font-size: clamp(1.95rem, 8.65vw, 2.45rem); }
   .ve-opening h1:lang(zh-CN) { font-size: clamp(1.7rem, 8.65vw, 2.45rem); text-wrap: balance; }
-  .ve-section, #ve-checklist { margin-top: 1.65rem; }
-  .ve-vignette { padding: 1rem 0; }
-  .ve-comparison { grid-template-columns: 1fr; }
+  .ve-terms, .ve-comparison, :is(.ve-terms, .ve-comparison) tbody { display: block; }
+  :is(.ve-terms, .ve-comparison) thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  :is(.ve-terms, .ve-comparison) tbody tr {
+    display: grid;
+    gap: .35rem;
+    border-top: 1px solid var(--rule);
+    padding-block: .65rem;
+  }
+  :is(.ve-terms, .ve-comparison) tbody :is(th, td) { padding: 0; border: 0; width: auto; }
+  :is(.ve-terms, .ve-comparison) .ve-field-label { display: inline; margin-inline-end: .45rem; font-weight: 600; color: var(--secondary); }
 }

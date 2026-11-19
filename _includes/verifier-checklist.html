@@ -1,52 +1,30 @@
-<section id="ve-checklist" aria-labelledby="ve-list-toggle">
-  <h2 id="ve-list-toggle" data-position="list-toggle">{{ labels.list | escape }}</h2>
-  <div data-position="checklist-intro">{{ article.opening.last | markdownify }}</div>
-
+<section class="ve-section" id="ve-checklist" aria-labelledby="ve-list-title">
+  <h2 id="ve-list-title" data-position="list-title">{{ labels.list | escape }}</h2>
   {% for group in article.groups %}
     {% assign first = group.rows.first.n | prepend: '0' | slice: -2, 2 %}
-    {% assign last = group.rows.last.n | prepend: '0' | slice: -2, 2 %}
-    <details class="ve-group" id="ve-group-{{ first }}">
-      <summary id="ve-group-title-{{ first }}" data-position="group-{{ first }}">
-        <span class="ve-group-range">{{ first }}–{{ last }}</span>
-        <span class="ve-group-name">{{ group.name | escape }}</span>
-        <span class="ve-plus" aria-hidden="true"></span>
-      </summary>
-      <p class="ve-group-description" data-position="description-{{ first }}">{{ group.description | escape }}</p>
-      {% for row in group.rows %}
-        {% assign number = row.n | prepend: '0' | slice: -2, 2 %}
-        <div class="ve-item" id="v{{ number }}" data-position="v{{ number }}">
-          <h4 data-position="v{{ number }}-title"><a href="#v{{ number }}">#{{ number }}</a> {{ row.behavior | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</h4>
-          <p data-position="v{{ number }}-example"><strong>{{ labels.example }}</strong>{{ row.example | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-          <p class="ve-meta" data-position="v{{ number }}-part"><strong>{{ labels.part }}</strong> · {{ row.part | escape }}</p>
-          <p class="ve-meta" data-position="v{{ number }}-learn"><strong>{{ labels.learn }}</strong>{{ row.learning | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-        </div>
-      {% endfor %}
-      <a class="ve-back ve-group-back" id="ve-back-{{ first }}" href="#ve-list-toggle">{% if page.language == 'zh' %}返回分组目录{% else %}Back to groups{% endif %}</a>
-    </details>
-  {% endfor %}
-
-  <h3 data-position="terms">{% if page.language == 'zh' %}术语{% else %}Terminology{% endif %}</h3>
-  <p data-position="scheme">{{ labels.scheme | escape }}</p>
-  <dl class="ve-terms">
-    {% for term in article.terms %}
-      <dt data-position="term-title-{{ forloop.index0 }}">{{ term[0] | escape }}</dt>
-      <dd data-position="term-def-{{ forloop.index0 }}">{{ term[1] | escape }}{{ labels.term_example }}{{ term[2] | escape }}</dd>
-    {% endfor %}
-  </dl>
-
-  <h3 data-position="comparison">{{ labels.comparison | escape }}</h3>
-  <div class="ve-comparison">
-    {% for label in article.comparisonLabels %}
-      {% assign column = forloop.index %}
-      <div>
-        <h4 data-position="compare-{{ column }}">{{ label | escape }}</h4>
-        <dl>
-          {% for pair in article.comparison %}
-            <dt data-position="compare-{{ column }}-title-{{ forloop.index }}">{{ pair[0] | escape }}</dt>
-            <dd data-position="compare-{{ column }}-detail-{{ forloop.index }}">{{ pair[column] | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</dd>
+    <section class="ve-group" id="ve-group-{{ first }}" aria-labelledby="ve-group-title-{{ first }}">
+      <h3 id="ve-group-title-{{ first }}" data-position="group-{{ first }}">{% if zh %}{{ '一二三四' | slice: forloop.index0, 1 }}、{% else %}{{ forloop.index }}. {% endif %}{{ group.name | escape }}</h3>
+      <table class="ve-case-table ve-table" aria-labelledby="ve-group-title-{{ first }}">
+        <thead><tr>
+          <th scope="col">#</th>
+          <th scope="col">{{ labels.behavior | escape }}</th>
+          <th scope="col">{{ labels.part | escape }}</th>
+          <th scope="col">{{ labels.learn | escape }}</th>
+          <th scope="col">{{ labels.example | escape }}</th>
+        </tr></thead>
+        <tbody>
+          {% for row in group.rows %}
+            {% assign number = row.n | prepend: '0' | slice: -2, 2 %}
+            <tr class="ve-item" id="v{{ number }}" data-position="v{{ number }}">
+              <th scope="row"><a class="ve-permalink" href="#v{{ number }}">#{{ number }}</a></th>
+              <td class="ve-behavior" data-position="v{{ number }}-title">{{ row.behavior | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</td>
+              <td data-position="v{{ number }}-part"><span class="ve-field-label" aria-hidden="true">{{ labels.part }}</span>{{ row.part | escape }}</td>
+              <td data-position="v{{ number }}-learn"><span class="ve-field-label" aria-hidden="true">{{ labels.learn }}</span>{{ row.learning | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</td>
+              <td data-position="v{{ number }}-example"><span class="ve-field-label" aria-hidden="true">{{ labels.example }}</span>{{ row.example | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</td>
+            </tr>
           {% endfor %}
-        </dl>
-      </div>
-    {% endfor %}
-  </div>
+        </tbody>
+      </table>
+    </section>
+  {% endfor %}
 </section>
