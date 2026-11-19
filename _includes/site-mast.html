@@ -1,0 +1,15 @@
+{%- if page.language == 'zh' -%}
+  {% assign home = '/zh/' -%}
+  {% assign target_language = 'en' -%}
+  {% assign switch_text = 'English' -%}
+  {% assign switch_label = 'Switch to English' -%}
+{%- else -%}
+  {% assign home = '/' -%}
+  {% assign target_language = 'zh-CN' -%}
+  {% assign switch_text = '中文' -%}
+  {% assign switch_label = '切换到中文' -%}
+{%- endif -%}
+<header class="ve-mast">
+  <a class="ve-brand" href="{{ home | relative_url }}">{% if page.type == 'website' %}{{ site.author | escape }}{% else %}{{ site.title | escape | replace: ' / ', ' <span>/</span> ' }}{% endif %}</a>
+  <a class="ve-language" href="{{ page.alternate | relative_url }}" lang="{{ target_language }}" hreflang="{{ target_language }}" aria-label="{{ switch_label }}">{{ switch_text }}</a>
+</header>

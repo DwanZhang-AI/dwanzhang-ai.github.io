@@ -1,0 +1,51 @@
+<!doctype html>
+{% if page.language == 'zh' -%}
+  {% assign language = 'zh-CN' -%}
+  {% assign english = page.alternate -%}
+  {% assign chinese = page.url -%}
+  {% assign description = site.description_zh -%}
+{% else -%}
+  {% assign language = 'en' -%}
+  {% assign english = page.url -%}
+  {% assign chinese = page.alternate -%}
+  {% assign description = site.description -%}
+{% endif -%}
+{% assign title = site.title -%}
+{% assign stylesheet = '/assets/home.css' -%}
+{% if page.type == 'article' -%}
+  {% assign stylesheet = '/assets/article.css' -%}
+  {% if page.language == 'zh' -%}
+    {% assign post = site.posts | where: 'url', page.alternate | first -%}
+    {% assign story = site.data[post.story] -%}
+    {% assign title = story.zh.title_lines | join: ' ' -%}
+    {% assign description = post.zh_excerpt -%}
+  {% else -%}
+    {% assign post = page -%}
+    {% assign title = post.title -%}
+    {% assign description = post.excerpt -%}
+  {% endif -%}
+{% endif -%}
+<html lang="{{ language }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{{ title | escape }}{% if page.type == 'article' %} · {{ site.title | escape }}{% endif %}</title>
+  <meta name="description" content="{{ description | strip_html | strip | escape }}">
+  <meta name="author" content="{{ site.author | escape }}">
+  <meta property="og:type" content="{{ page.type }}">
+  <meta property="og:title" content="{{ title | escape }}">
+  <meta property="og:description" content="{{ description | strip_html | strip | escape }}">
+  <meta property="og:url" content="{{ page.url | absolute_url }}">
+  {% if post.cover %}<meta property="og:image" content="{{ post.cover | absolute_url }}">{% endif %}
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="alternate" hreflang="en" href="{{ english | absolute_url }}">
+  <link rel="alternate" hreflang="zh-CN" href="{{ chinese | absolute_url }}">
+  <link rel="alternate" hreflang="x-default" href="{{ english | absolute_url }}">
+  <link rel="alternate" type="application/atom+xml" title="{{ site.title | escape }}" href="{{ '/feed.xml' | relative_url }}">
+  <link rel="stylesheet" href="{{ stylesheet | relative_url }}?v={{ site.time | date: '%s' }}">
+  {% if page.type == 'article' %}<script src="{{ '/assets/article.js' | relative_url }}?v={{ site.time | date: '%s' }}" defer></script>{% endif %}
+</head>
+<body>
+  <main>{{ content }}</main>
+</body>
+</html>

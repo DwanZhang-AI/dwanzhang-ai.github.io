@@ -3,10 +3,7 @@
 {%- assign zh = false -%}
 {%- if page.language == 'zh' %}{% assign zh = true %}{% endif -%}
 <article id="verifier-essay" lang="{{ labels.lang }}">
-  <header class="ve-mast">
-    <a class="ve-brand" href="{{ labels.home | relative_url }}">DwanZhang <span>/</span> AI Notes</a>
-    <a class="ve-language" href="{{ page.alternate | relative_url }}" lang="{{ labels.switch_lang }}" hreflang="{{ labels.switch_lang }}" aria-label="{{ labels.switch_label }}">{{ labels.switch }}</a>
-  </header>
+  {% include site-mast.html %}
 
   <div class="ve-reading">
     <header class="ve-opening">

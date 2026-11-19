@@ -1,0 +1,42 @@
+{% assign chinese = false %}
+{% if page.language == 'zh' %}{% assign chinese = true %}{% endif %}
+<div class="home">
+  {% include site-mast.html %}
+  <div class="home-content">
+    <header class="home-intro">
+      <h1>{% if chinese %}AI 笔记{% else %}AI Notes{% endif %}</h1>
+      <p>{% if chinese %}这里是我的技术博客，记录我对 AI agent、评测和模型训练的思考。{% else %}My technical notes on AI agents, evaluation, and how models learn from feedback.{% endif %}</p>
+    </header>
+
+    <section class="home-writing" aria-labelledby="writing">
+      <h2 id="writing">{% if chinese %}文章{% else %}Writing{% endif %}</h2>
+      {% for post in site.posts %}
+        {% if chinese %}
+          {% assign story = site.data[post.story] %}
+          {% assign title = story.zh.title_lines | join: ' ' %}
+          {% assign excerpt = post.zh_excerpt %}
+          {% assign url = post.alternate %}
+        {% else %}
+          {% assign title = post.title %}
+          {% assign excerpt = post.excerpt %}
+          {% assign url = post.url %}
+        {% endif %}
+        <article class="home-entry">
+          <div class="entry-copy">
+            <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{% if chinese %}{{ post.date | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ post.date | date: '%b %-d, %Y' }}{% endif %}</time>
+            <h3><a href="{{ url | relative_url }}">{{ title | escape }}</a></h3>
+            <p>{{ excerpt | strip_html | strip | escape }}</p>
+          </div>
+          {% if post.cover %}<img class="entry-cover" src="{{ post.cover | relative_url }}" width="900" height="600" alt="">{% endif %}
+        </article>
+      {% endfor %}
+    </section>
+    <footer class="home-footer">
+      <span>© {{ site.time | date: '%Y' }} {{ site.author }}</span>
+      <nav aria-label="{% if chinese %}其他链接{% else %}More links{% endif %}">
+        <a href="https://github.com/DwanZhang-AI">GitHub</a>
+        <a href="{{ '/feed.xml' | relative_url }}">RSS</a>
+      </nav>
+    </footer>
+  </div>
+</div>
