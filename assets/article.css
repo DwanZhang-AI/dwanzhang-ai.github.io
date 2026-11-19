@@ -107,7 +107,7 @@ html, body { margin: 0; padding: 0; }
 .ve-comparison th:first-child { width: 22%; }
 #ve-notes { border-top: 1px solid var(--rule); margin-top: 2.5rem; color: var(--secondary); font-size: .875rem; }
 #ve-notes h2 { margin: 1rem 0 .35rem; font-size: 1rem; }
-#ve-notes ul { padding-inline-start: 1.2rem; margin-block: .3rem 0; }
+#ve-notes :is(ul, ol) { padding-inline-start: 1.2rem; margin-block: .3rem 0; }
 #ve-notes li + li { margin-top: .35rem; }
 
 @media (min-width: 58rem) {

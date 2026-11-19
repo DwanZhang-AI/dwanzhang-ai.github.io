@@ -23,9 +23,7 @@
       <p data-position="scheme">{{ labels.scheme | escape }}</p>
       <table class="ve-terms ve-table" aria-labelledby="ve-guide">
         <thead><tr>
-          <th scope="col">{% if zh %}部分{% else %}Part{% endif %}</th>
-          <th scope="col">{% if zh %}是什么{% else %}What it is{% endif %}</th>
-          <th scope="col">{% if zh %}例{% else %}Examples{% endif %}</th>
+          {% for heading in labels.term_headers %}<th scope="col">{{ heading | escape }}</th>{% endfor %}
         </tr></thead>
         <tbody>
           {% for term in article.terms %}
@@ -39,11 +37,11 @@
       </table>
       <p id="ve-groups-intro" data-position="groups-intro">{{ labels.group_intro | escape }}</p>
       <table class="ve-groups-guide ve-table" aria-labelledby="ve-groups-intro">
-        <thead><tr><th scope="col">{% if zh %}组{% else %}Group{% endif %}</th><th scope="col">{% if zh %}含义{% else %}Meaning{% endif %}</th></tr></thead>
+        <thead><tr>{% for heading in labels.group_headers %}<th scope="col">{{ heading | escape }}</th>{% endfor %}</tr></thead>
         <tbody>
           {% for group in article.groups %}
             {% assign first = group.rows.first.n | prepend: '0' | slice: -2, 2 %}
-            <tr><th scope="row" data-position="group-name-{{ first }}"><a href="#ve-group-{{ first }}">{{ group.name | escape }}</a></th>
+            <tr><th scope="row" data-position="group-name-{{ first }}"><a href="#ve-group-{{ first }}">{% if zh %}{{ '一二三四' | slice: forloop.index0, 1 }}、{% else %}{{ forloop.index }}. {% endif %}{{ group.guide_name | escape }}</a></th>
               <td data-position="group-description-{{ first }}">{{ group.description | escape }}</td></tr>
           {% endfor %}
         </tbody>
@@ -60,7 +58,7 @@
       {% endfor %}
       <table class="ve-comparison ve-table" aria-labelledby="ve-discussion-title">
         <thead><tr>
-          <td></td>
+          <th scope="col">{{ labels.dimension | escape }}</th>
           {% for label in article.comparisonLabels %}<th scope="col">{{ label | escape }}</th>{% endfor %}
         </tr></thead>
         <tbody>
@@ -85,7 +83,7 @@
       <h2 data-position="notes">{{ labels.notes }}</h2>
       <ul>{% for note in article.notes %}<li data-position="note-{{ forloop.index }}">{{ note | escape }}</li>{% endfor %}</ul>
       <h2 data-position="references">{{ labels.reference }}</h2>
-      <a data-position="paper" href="https://arxiv.org/abs/2507.02825">[1] Establishing Best Practices for Building Rigorous Agentic Benchmarks. arXiv:2507.02825.</a>
+      <ol>{% for paper in site.data.verifier.references %}<li><a data-position="paper-{{ forloop.index }}" href="{{ paper.url | escape }}">{{ paper.title | escape }}</a></li>{% endfor %}</ol>
       <p data-position="feed"><a href="{{ '/feed.xml' | relative_url }}" type="application/atom+xml">RSS</a></p>
     </footer>
   </div>
