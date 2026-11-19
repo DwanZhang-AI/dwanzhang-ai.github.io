@@ -5,16 +5,14 @@
     <a class="ve-brand" href="{{ labels.home | relative_url }}">DwanZhang <span>/</span> AI Notes</a>
     <a class="ve-language" href="{{ page.alternate | relative_url }}" lang="{{ labels.switch_lang }}" hreflang="{{ labels.switch_lang }}" aria-label="{{ labels.switch_label }}">{{ labels.switch }}</a>
   </header>
+
   <div class="ve-reading">
-    <h1 data-position="title">{{ article.title | escape }}</h1>
-    <div id="ve-intro">
-      {% for paragraph in article.opening %}
-        {% unless forloop.last %}
-          <p data-position="intro-{{ forloop.index0 }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-          {% if forloop.index == 3 %}<blockquote data-position="principle">{{ article.quote | escape }}</blockquote>{% endif %}
-        {% endunless %}
-      {% endfor %}
-    </div>
+    <header class="ve-opening">
+      <time datetime="{{ site.data.verifier.published }}">{% if page.language == 'zh' %}{{ site.data.verifier.published | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ site.data.verifier.published | date: '%B %-d, %Y' }}{% endif %}</time>
+      <h1 data-position="title"><span>{{ article.title_lines[0] | escape }}</span> <span>{{ article.title_lines[1] | escape }}</span></h1>
+      <p class="ve-lead" data-position="lead">{{ article.lead | escape }}</p>
+      <a class="ve-index-link" id="ve-browse-cases" href="#ve-checklist">{{ labels.browse }} <span aria-hidden="true">↓</span></a>
+    </header>
 
     <section class="ve-section" id="ve-four">
       <h2 data-position="examples">{{ labels.four }}</h2>
@@ -23,9 +21,24 @@
         {% assign number = featured.n | prepend: '0' | slice: -2, 2 %}
         {% assign punctuation = featured.example | slice: -1, 1 %}
         <div class="ve-vignette" data-position="ex-{{ forloop.index0 }}">
-          <h3 data-position="ex-title-{{ forloop.index0 }}"><a class="ve-case-link" id="ve-ref-ex-title-{{ forloop.index0 }}-v{{ number }}-0" href="#v{{ number }}">{{ group.name | escape }} <small>#{{ number }}</small></a></h3>
+          <h3 data-position="ex-title-{{ forloop.index0 }}">
+            <a class="ve-case-link" id="ve-ref-ex-title-{{ forloop.index0 }}-v{{ number }}-0" href="#v{{ number }}">
+              <span class="ve-case-kicker"><small>#{{ number }}</small> {{ group.name | escape }}</span>
+              <span class="ve-case-title">{{ group.example_title | escape }}</span>
+            </a>
+          </h3>
           <p data-position="ex-text-{{ forloop.index0 }}">{{ featured.example | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}{% unless '.!?。！？' contains punctuation %}{% if page.language == 'zh' %}。{% else %}.{% endif %}{% endunless %}</p>
         </div>
+      {% endfor %}
+    </section>
+
+    <section class="ve-section" id="ve-intro">
+      <h2 data-position="context">{{ labels.context }}</h2>
+      {% for paragraph in article.opening %}
+        {% unless forloop.last %}
+          <p data-position="intro-{{ forloop.index0 }}">{{ paragraph | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
+          {% if forloop.rindex == 3 %}<blockquote data-position="principle">{{ article.quote | escape }}</blockquote>{% endif %}
+        {% endunless %}
       {% endfor %}
     </section>
 
@@ -37,57 +50,14 @@
       {% endfor %}
     </section>
 
-    <details id="ve-checklist">
-      <summary id="ve-list-toggle" data-position="list-toggle"><span id="ve-list-label">{{ labels.list }}</span><span class="ve-plus" aria-hidden="true"></span></summary>
-      <div id="ve-list">
-        {{ article.opening.last | markdownify }}
-        <p>{{ labels.scheme }}</p>
-        <dl class="ve-terms">
-          {% for term in article.terms %}
-            <dt data-position="term-title-{{ forloop.index0 }}">{{ term[0] | escape }}</dt>
-            <dd data-position="term-def-{{ forloop.index0 }}">{{ term[1] | escape }}{{ labels.term_example }}{{ term[2] | escape }}</dd>
-          {% endfor %}
-        </dl>
-        {% for group in article.groups %}
-          <section class="ve-group">
-            <h3 data-position="group-{{ forloop.index0 }}">{{ group.name | escape }}</h3>
-            <p>{{ group.description | escape }}</p>
-            {% for row in group.rows %}
-              {% assign number = row.n | prepend: '0' | slice: -2, 2 %}
-              <div class="ve-item" id="v{{ number }}" data-position="v{{ number }}">
-                <h4 data-position="v{{ number }}-title"><a href="#v{{ number }}">#{{ number }}</a> {{ row.behavior | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</h4>
-                <p data-position="v{{ number }}-example"><strong>{{ labels.example }}</strong>{{ row.example | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-                <p class="ve-meta" data-position="v{{ number }}-part">{{ labels.part }} · {{ row.part | escape }}</p>
-                <p class="ve-meta" data-position="v{{ number }}-learn"><strong>{{ labels.learn }}</strong>{{ row.learning | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</p>
-              </div>
-            {% endfor %}
-          </section>
-        {% endfor %}
-        <h3>{{ labels.comparison }}</h3>
-        <div class="ve-comparison" data-position="comparison">
-          {% for label in article.comparisonLabels %}
-            {% assign column = forloop.index %}
-            <div>
-              <h3>{{ label | escape }}</h3>
-              <dl>
-                {% for pair in article.comparison %}
-                  <dt>{{ pair[0] | escape }}</dt>
-                  <dd>{{ pair[column] | markdownify | strip | remove_first: '<p>' | remove: '</p>' }}</dd>
-                {% endfor %}
-              </dl>
-            </div>
-          {% endfor %}
-        </div>
-        <a class="ve-back" href="#ve-list-toggle">{{ labels.back }}</a>
-      </div>
-    </details>
+    {% include verifier-checklist.html %}
 
     <footer id="ve-notes">
       <h2 data-position="notes">{{ labels.notes }}</h2>
-      {% for note in article.notes %}<p>{{ note | escape }}</p>{% endfor %}
-      <h2>{{ labels.reference }}</h2>
-      <a href="https://arxiv.org/abs/2507.02825">[1] Establishing Best Practices for Building Rigorous Agentic Benchmarks.</a>
-      <p><a href="{{ '/feed.xml' | relative_url }}" type="application/atom+xml">RSS</a></p>
+      {% for note in article.notes %}<p data-position="note-{{ forloop.index }}">{{ note | escape }}</p>{% endfor %}
+      <h2 data-position="references">{{ labels.reference }}</h2>
+      <a data-position="paper" href="https://arxiv.org/abs/2507.02825">[1] Establishing Best Practices for Building Rigorous Agentic Benchmarks.</a>
+      <p data-position="feed"><a href="{{ '/feed.xml' | relative_url }}" type="application/atom+xml">RSS</a></p>
     </footer>
   </div>
 </article>

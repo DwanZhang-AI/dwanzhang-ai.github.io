@@ -1,9 +1,14 @@
 {
+  "published": "2026-11-18",
   "en": {
-    "title": "40 Ways to Build a Bad Verifier",
+    "title_lines": [
+      "40 Ways to Build",
+      "a Bad Verifier"
+    ],
     "opening": [
-      "Writing a good task for an agent is only half the job. The other half is giving it a verifier you can trust. Once the agent finishes, this referee looks over the task prompt, the agent environment and the deliverables, produces a score, and makes the call: pass or fail. In evaluation, that call fills one cell on a leaderboard. In training, it is the reward that drives the model's updates.",
-      "A bad call costs very different amounts in the two settings. In evaluation, a verifier that gets it wrong once leaves one number on the report card off. In training, a verifier that gets one kind of case wrong opens a gap, and the model runs straight through it. The optimizer never gives the task author the benefit of the doubt: whatever the grading leaves out, the model drops first; whatever the grading over-asks for, the model chases. By the end, the agent hasn't learned to do the work well. It has learned exactly how to play your grading script.",
+      "Once the agent finishes, this referee looks over the task prompt, the agent environment and the deliverables, produces a score, and makes the call: pass or fail. In evaluation, that call fills one cell on a leaderboard. In training, it is the reward that drives the model's updates.",
+      "A bad call costs very different amounts in the two settings. In evaluation, a verifier that gets it wrong once leaves one number on the report card off. In training, a verifier that gets one kind of case wrong opens a gap, and the model runs straight through it.",
+      "The optimizer never gives the task author the benefit of the doubt: whatever the grading leaves out, the model drops first; whatever the grading over-asks for, the model chases. By the end, the agent hasn't learned to do the work well. It has learned exactly how to play your grading script.",
       "In principle, we ask only one thing of a verifier, so plain it sounds almost trivial:",
       "This is the same requirement as \"outcome validity\" in the ABC checklist [\\[1\\]](https://arxiv.org/abs/2507.02825). It sounds simple, but in practice there are countless ways to break it. Worst of all, most of the time the verifier raises no error at all. It calmly produces a neatly formatted score sheet, with the problem buried inside.",
       "The 40 rows below take these failures apart one at a time. Each row records four things: what happens, which part is at fault, what the model learns from it, and an example."
@@ -110,7 +115,8 @@
             "example": "An analysis report gets every conclusion right but uses a level-2 heading where level 1 was asked. This criterion is must-pass, so the whole task fails. The more requirements like this among the must-pass criteria, the more likely a fully correct submission is dragged down by a misjudgment on one of them"
           }
         ],
-        "featured": 3
+        "featured": 3,
+        "example_title": "When sorting by name becomes a requirement"
       },
       {
         "name": "Incorrect work is passed",
@@ -194,7 +200,8 @@
             "example": "A long report contradicts the source data in one place in a middle section. The judge model reads only the beginning and the end closely and judges \"data is consistent\" as met"
           }
         ],
-        "featured": 3
+        "featured": 3,
+        "example_title": "Invented numbers that add up"
       },
       {
         "name": "The score points the wrong way",
@@ -250,7 +257,8 @@
             "example": "One criterion uses a programmatic check with a tolerance and judges a value met; a later criterion uses a judge model with literal comparison and judges the same value not met"
           }
         ],
-        "featured": 1
+        "featured": 1,
+        "example_title": "A near miss gets the same score as a barely attempted task"
       },
       {
         "name": "The result can't be trusted",
@@ -348,7 +356,8 @@
             "example": "Deliverables aren't archived; grading dependencies aren't version-pinned, and regrading some time later gives a different result"
           }
         ],
-        "featured": 6
+        "featured": 6,
+        "example_title": "The grader breaks and the submission gets zero"
       }
     ],
     "discussionTitle": "Looking back: only two kinds of error",
@@ -401,14 +410,21 @@
       "comparison": "False fails and false passes",
       "back": "Close checklist and return to article",
       "notes": "Notes",
-      "reference": "Reference"
-    }
+      "reference": "Reference",
+      "context": "What a grading mistake costs",
+      "browse": "Browse all 40 cases"
+    },
+    "lead": "Writing a good task for an agent is only half the job. The other half is giving it a verifier you can trust."
   },
   "zh": {
-    "title": "把 verifier 做坏的 40 种办法",
+    "title_lines": [
+      "把 verifier 做坏的",
+      "40 种办法"
+    ],
     "opening": [
-      "给 agent 出了一道好题，事情其实只做了一半——另一半，是给它配一个靠谱的 verifier。作答一结束，这个裁判要翻看题面、作答环境和交付物，给出一个分数，再拍板“过”还是“不过”。放在评测里，它决定榜单上的一格；放到训练里，它就是驱动模型更新的 reward。",
-      "同样是裁判吹偏哨，这两处的代价完全不在一个量级。评测里 verifier 错一次，最多是成绩单上某个数字不准；训练里 verifier 只要错一类，模型就会顺着这个口子一路狂奔。优化器从不体谅出题人的本意：评分漏掉什么，模型就第一时间省掉什么；评分多要什么，模型就拼命迎合什么。练到最后，agent 没学会怎么把活干好，倒先学会了怎么精准拿捏你的评分脚本。",
+      "作答一结束，这个裁判要翻看题面、作答环境和交付物，给出一个分数，再拍板“过”还是“不过”。放在评测里，它决定榜单上的一格；放到训练里，它就是驱动模型更新的 reward。",
+      "同样是裁判吹偏哨，这两处的代价完全不在一个量级。评测里 verifier 错一次，最多是成绩单上某个数字不准；训练里 verifier 只要错一类，模型就会顺着这个口子一路狂奔。",
+      "优化器从不体谅出题人的本意：评分漏掉什么，模型就第一时间省掉什么；评分多要什么，模型就拼命迎合什么。练到最后，agent 没学会怎么把活干好，倒先学会了怎么精准拿捏你的评分脚本。",
       "按理说，我们对 verifier 只有一条根本要求，朴素得近乎废话：",
       "这和 ABC 检查清单 [\\[1\\]](https://arxiv.org/abs/2507.02825) 里的“结果有效性”是同一回事。听起来简单明了，真落到工程里却有无数种破法——最麻烦的是，大多数时候 verifier 根本不会报错，照样稳稳当当地吐出一张格式工整的分数表，把坑藏得严严实实。",
       "下面这 40 条，把这些坑逐一拆开，每一条记下四件事：出了什么现象、坏在哪个部分、模型会顺着学到什么，外加一个例子。"
@@ -515,7 +531,8 @@
             "example": "一份分析报告结论全对，但标题用了二级而不是一级。这个评分项是必过项，整题不通过。必过项里这类要求越多，全对的作答被其中某一个误判拖下去的机会越大"
           }
         ],
-        "featured": 3
+        "featured": 3,
+        "example_title": "按姓名排序成了硬要求"
       },
       {
         "name": "没做对却给过",
@@ -599,7 +616,8 @@
             "example": "一份长报告在中间一节有一处和原始数据矛盾，评判模型只细读了开头和结尾，把“数据一致”判成满足"
           }
         ],
-        "featured": 3
+        "featured": 3,
+        "example_title": "数字都是编的，合计却对得上"
       },
       {
         "name": "分数指错方向",
@@ -655,7 +673,8 @@
             "example": "一个评分项由程序检查按容差判某个数值满足，后面一个评分项由评判模型按字面比对，判同一个数值不满足"
           }
         ],
-        "featured": 1
+        "featured": 1,
+        "example_title": "差一点和几乎没做，得分相同"
       },
       {
         "name": "结论不可信",
@@ -753,7 +772,8 @@
             "example": "交付物没归档；评分依赖没固定版本，过一阵再评结果不同"
           }
         ],
-        "featured": 6
+        "featured": 6,
+        "example_title": "评分器出了故障，作答却得零分"
       }
     ],
     "discussionTitle": "回头看这 40 条：只有两种错",
@@ -806,7 +826,10 @@
       "comparison": "错杀和放水",
       "back": "收起清单，返回正文",
       "notes": "说明",
-      "reference": "参考文献"
-    }
+      "reference": "参考文献",
+      "context": "一次误判的代价",
+      "browse": "浏览全部 40 个案例"
+    },
+    "lead": "给 agent 出了一道好题，事情其实只做了一半——另一半，是给它配一个靠谱的 verifier。"
   }
 }
