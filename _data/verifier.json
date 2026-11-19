@@ -16,13 +16,13 @@
       "a Bad Verifier"
     ],
     "opening": [
-      "When building agent benchmarks or RL environments, it is easy to spend most of the effort on task design and treat the verifier as an afterthought. Once the agent finishes, the verifier inspects the prompt, environment state, and deliverables to assign a score and a pass/fail verdict. In evals, that score contributes to the benchmark result. In RL, the same score can be used as a training reward.",
-      "A bad eval check can add noise to a leaderboard score. If it systematically favors one kind of output, it can also distort rankings. In training, a recurring flaw can shape the policy itself: if a requirement goes unchecked, the optimizer can favor skipping it. If a check is overly brittle, the policy can overfit to that quirk.",
-      "The ABC checklist calls the agreement between task success and the evaluation result **outcome validity** [\\[1\\]](https://arxiv.org/abs/2507.02825). For a pass/fail verifier, that gives a simple rule:",
-      "A verifier can break this rule, finish cleanly, and return a plausible score. To catch an error like that, try a submission with a known flaw or trace a passing verdict back to the evidence the verifier actually inspected.",
-      "Below are 40 ways grading can go wrong. Each row gives the failure mode, the component involved, its possible effect on training, and an example."
+      "The verifier has become one of the most important parts of a dataset for training or evaluating AI agents. Once an agent finishes a task, the verifier checks the task instructions, the state of the environment, and what the agent delivered. It assigns a score and decides whether the submission passes. In evaluation, the verifier determines how much we can trust the numbers on a leaderboard. In training, that same score can serve as the reward for updating the model, directly shaping which capabilities it develops.",
+      "An occasional grading error may be detectable and can sometimes be treated as noise. But if a verifier consistently favors one way of writing an answer, or keeps making the same mistake, it can rank models in the wrong order. Using those same rules for training can steer a model in the wrong direction. It may learn to skip a requirement the verifier never checks, or pay especially close attention to a formatting rule the grader has hard-coded.",
+      "The Agentic Benchmark Checklist (ABC) uses *outcome validity* to describe how accurately an evaluation reflects the actual outcome of a task. [\\[1\\]](https://arxiv.org/abs/2507.02825) The idea is simple.",
+      "That sounds straightforward. In practice, a verifier can run to completion without raising a single error and return a score that looks perfectly reasonable, even when several of its checks are wrong.",
+      "We’ve collected 40 ways a verifier can go wrong. Each entry describes what happens, identifies where the problem arises, explains how it might affect training, and gives a concrete example."
     ],
-    "quote": "Pass a submission if and only if it achieves the task's goal.",
+    "quote": "Whether a submission passes should depend only on whether it achieves the task’s goal.",
     "terms": [
       [
         "Criteria",
