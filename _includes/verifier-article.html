@@ -9,7 +9,7 @@
   <div class="ve-reading">
     <header class="ve-opening">
       <time datetime="{{ site.data.verifier.published }}">{% if page.language == 'zh' %}{{ site.data.verifier.published | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ site.data.verifier.published | date: '%B %-d, %Y' }}{% endif %}</time>
-      <h1 data-position="title"><span>{{ article.title_lines[0] | escape }}</span> <span>{{ article.title_lines[1] | escape }}</span></h1>
+      <h1 data-position="title">{% for line in article.title_lines %}{% unless forloop.first %} {% endunless %}<span>{{ line | escape }}</span>{% endfor %}</h1>
       <p class="ve-lead" data-position="lead">{{ article.lead | escape }}</p>
       <a class="ve-index-link" id="ve-browse-cases" href="#ve-checklist">{{ labels.browse }} <span aria-hidden="true">↓</span></a>
     </header>
