@@ -62,6 +62,7 @@ html, body { margin: 0; padding: 0; }
   font-weight: 700;
 }
 .ve-opening h1 span { display: block; }
+.ve-byline { color: var(--secondary); font-size: .9375rem; line-height: 1.5; }
 :lang(zh-CN) > .ve-reading h1 { line-height: 1.18; letter-spacing: -.018em; }
 .ve-section { margin-top: clamp(1.65rem, 5vw, 3rem); }
 .ve-reading h2 { font-size: clamp(1.4rem, 3vw, 1.95rem); line-height: 1.28; letter-spacing: -.025em; }

@@ -9,6 +9,7 @@
     <header class="ve-opening">
       <time datetime="{{ site.data.verifier.published }}">{% if zh %}{{ site.data.verifier.published | date: '%Y 年 %-m 月 %-d 日' }}{% else %}{{ site.data.verifier.published | date: '%B %-d, %Y' }}{% endif %}</time>
       <h1 data-position="title">{% for line in article.title_lines %}{% unless forloop.first %} {% endunless %}<span>{{ line | escape }}</span>{% endfor %}</h1>
+      <p class="ve-byline">{{ site.author | escape }}</p>
     </header>
 
     <section class="ve-section" id="ve-intro" aria-labelledby="ve-intro-title">
