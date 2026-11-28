@@ -1,0 +1,146 @@
+name: Dwan (Daoan) Zhang
+scholar: https://scholar.google.com/citations?user=yeLdvGoAAAAJ&hl=en
+
+role:
+  en: [Senior Research Scientist, ByteDance Seed, "San Jose, CA"]
+  zh: [高级研究科学家, 字节跳动 Seed, 美国圣何塞]
+about:
+  en: "I'm researching data-oriented recursive self-improvement: how AI systems can turn real-world experience into better training tasks, executable environments, and reliable benchmarks. At ByteDance, I work on agent evaluation, verification, and LLM post-training. My research connects how agents learn with how we measure their progress, from discovering useful tasks and learning from failures to verifying that improvements translate into reliable capabilities."
+  zh: 我研究面向数据的递归自我改进（data-oriented recursive self-improvement）：AI 系统怎样把真实世界里的经验，变成更好的训练任务、可执行环境和可靠的 benchmark。在字节跳动，我做 Agent 评测、verification 和 LLM post-training。我的研究把 Agent 怎么学和我们怎么衡量它的进步连在一起：从发现有用的任务、从失败中学习，到验证这些改进确实变成了可靠的能力。
+
+links:
+  - label: { en: Email, zh: 邮箱 }
+    url: mailto:dwan.zhang@icloud.com
+  - label: { en: Google Scholar, zh: Google Scholar }
+    url: https://scholar.google.com/citations?user=yeLdvGoAAAAJ&hl=en
+  - label: { en: GitHub, zh: GitHub }
+    url: https://github.com/DwanZhang-AI
+  - label: { en: LinkedIn, zh: LinkedIn }
+    url: https://www.linkedin.com/in/dwan-zhang-b6a852295/
+
+labels:
+  en:
+    nav: Sections
+    links: Contact and profiles
+    portrait: Portrait of Dwan Zhang
+    writing: Writing
+    experience: Experience
+    publications: Selected publications
+    publications_nav: Publications
+    education: Education
+    full_list: Full list on Google Scholar
+    submitted: In submission
+  zh:
+    nav: 页面导航
+    links: 联系方式和个人主页
+    portrait: Dwan Zhang 的照片
+    writing: 文章
+    experience: 经历
+    publications: 部分论文
+    publications_nav: 论文
+    education: 教育
+    full_list: 完整列表见 Google Scholar
+    submitted: 在投
+
+experience:
+  - when: { en: 2025–Present, zh: 2025 至今 }
+    org: { en: ByteDance Seed, zh: 字节跳动 Seed }
+    role: { en: Senior Research Scientist, zh: 高级研究科学家 }
+    place: { en: "San Jose, CA", zh: 美国圣何塞 }
+    points:
+      en:
+        - Scaling RL environment & SFT data for Doubao LLMs
+        - Building the Enterprise Agent Evaluation Platform
+        - Contribute to multimodal data pipeline for Seedance
+      zh:
+        - 扩大豆包大模型的 RL 环境和 SFT 数据规模
+        - 搭建企业级 Agent 评测平台
+        - 参与 Seedance 的多模态数据管线
+  - when: { en: "2025", zh: "2025" }
+    org: { en: "Amazon Frontier AI & Robotics", zh: "Amazon Frontier AI & Robotics" }
+    role: { en: Research Intern, zh: 研究实习生 }
+    place: { en: "San Francisco, CA", zh: 美国旧金山 }
+  - when: { en: "2025", zh: "2025" }
+    org: { en: Microsoft Copilot, zh: Microsoft Copilot }
+    role: { en: Research Intern, zh: 研究实习生 }
+    place: { en: Remote, zh: 远程 }
+  - when: { en: "2024", zh: "2024" }
+    org: { en: "Tencent AI Lab, Tencent America LLC", zh: 腾讯 AI Lab（腾讯美国） }
+    role: { en: Research Intern, zh: 研究实习生 }
+    place: { en: "Seattle, WA", zh: 美国西雅图 }
+  - when: { en: "2023", zh: "2023" }
+    org: { en: "Tencent AI Lab, Tencent Technology", zh: 腾讯 AI Lab（腾讯科技） }
+    role: { en: Research Intern, zh: 研究实习生 }
+    place: { en: "Shenzhen, China", zh: 深圳 }
+  - when: { en: 2021–2022, zh: 2021–2022 }
+    org: { en: Ping An Technology, zh: 平安科技 }
+    role: { en: Research Intern, zh: 研究实习生 }
+    place: { en: "Shenzhen, China", zh: 深圳 }
+
+education:
+  - when: 2023–2025
+    org: { en: University of Rochester, zh: 罗切斯特大学 }
+    degree: { en: Master of Engineering in Computer Science, zh: 计算机科学工程硕士 }
+    place: { en: "Rochester, NY", zh: 美国罗切斯特 }
+    note: { en: "Advisor: Prof. Jiebo Luo", zh: 导师：Jiebo Luo 教授 }
+  - when: 2020–2023
+    org: { en: Southern University of Science and Technology, zh: 南方科技大学 }
+    degree: { en: Master of Engineering in Computer Science, zh: 计算机科学工程硕士 }
+    place: { en: "Shenzhen, China", zh: 深圳 }
+    note: { en: "Advisor: Prof. Jianguo Zhang · Distinguished Graduate", zh: 导师：Jianguo Zhang 教授 · 优秀毕业生 }
+  - when: 2015–2019
+    org: { en: East China University of Science and Technology, zh: 华东理工大学 }
+    degree: { en: Bachelor of Engineering in Electrical Engineering, zh: 电气工程工学学士 }
+    place: { en: "Shanghai, China", zh: 上海 }
+
+# A paper without a venue is in submission. The venue it was sent to is left out on purpose.
+publications:
+  - title: "Veritas: A Verifier Generation Harness for Agent Tasks"
+    url: https://arxiv.org/abs/2611.13336
+  - title: "TraceDance: An Automated System for Building Agent Behavior Benchmarks from Real-World Deployment Traces"
+    url: https://arxiv.org/abs/2609.33295
+  - title: "VerifierBench: Benchmarking the Generation of Executable Verifiers for LLM Agents"
+    url: https://arxiv.org/abs/2610.28679
+  - title: Dependency-Aware Reward Shaping for Agentic Reinforcement Learning
+    url: https://arxiv.org/abs/2610.01207
+  - title: "Beyond Oracle Communication: Benchmarking Interactive Intent Alignment Under Miscommunication and Evolving User Intent"
+    url: https://arxiv.org/abs/2609.38604
+  - title: "LIBERO-MAX: Do Robot Policies Adapt When the World Changes?"
+    url: https://arxiv.org/abs/2609.36518
+  - title: "Sphinx: Benchmarking and Modeling for LLM-Driven Pull Request Review"
+    url: https://arxiv.org/abs/2601.04252
+  - title: "RLiD: Reinforcement Learning in the Decision Plane for Language Agents and LLMs"
+    venue: arXiv 2026
+    url: https://arxiv.org/abs/2611.02455
+  - title: "Large Decision Models: Repurposing Large Language Models as Single-Pass Decision Makers"
+    venue: arXiv 2026
+    url: https://arxiv.org/abs/2610.15501
+  - title: How Far Are Video Models from True Multimodal Reasoning?
+    venue: ECCV 2026
+    url: https://arxiv.org/abs/2604.19193
+  - title: "JavisGPT: A Unified Multi-modal LLM for Sounding-Video Comprehension and Generation"
+    venue: NeurIPS 2025
+    honor: Spotlight
+    url: https://arxiv.org/abs/2512.22905
+  - title: "On Path to Multimodal Generalist: General-Level and General-Bench"
+    venue: ICML 2025
+    honor: Oral
+    url: https://arxiv.org/abs/2505.04620
+  - title: "Code to Think, Think to Code: A Survey on Code-Enhanced Reasoning and Reasoning-Driven Code Intelligence in LLMs"
+    venue: EMNLP 2025
+    honor: Oral
+    url: https://arxiv.org/abs/2502.19411
+  - title: "MultiMedia-Agent: A Multimodal Agent for Multimedia Content Generation"
+    url: https://arxiv.org/abs/2601.03250
+  - title: "DeFine: Enhancing LLM Decision-Making with Factor Profiles and Analogical Reasoning"
+    venue: ACL 2025
+    url: https://arxiv.org/abs/2410.01772
+  - title: "FINEMATCH: Aspect-based Fine-grained Image and Text Mismatch Detection and Correction"
+    venue: ECCV 2024
+    url: https://arxiv.org/abs/2404.14715
+  - title: A Benchmark and Chain-of-Thought Prompting Strategy for Large Multimodal Models with Multiple Image Inputs
+    venue: ICPR 2024
+    url: https://arxiv.org/abs/2401.02582
+  - title: GPT-4V(ision) as A Social Media Analysis Engine
+    venue: ACM TIST
+    url: https://arxiv.org/abs/2311.07547

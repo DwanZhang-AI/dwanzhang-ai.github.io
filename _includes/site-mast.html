@@ -1,15 +1,27 @@
 {%- if page.language == 'zh' -%}
   {% assign home = '/zh/' -%}
+  {% assign mast_labels = site.data.profile.labels.zh -%}
   {% assign target_language = 'en' -%}
   {% assign switch_text = 'English' -%}
   {% assign switch_label = 'Switch to English' -%}
 {%- else -%}
   {% assign home = '/' -%}
+  {% assign mast_labels = site.data.profile.labels.en -%}
   {% assign target_language = 'zh-CN' -%}
   {% assign switch_text = '中文' -%}
   {% assign switch_label = '切换到中文' -%}
 {%- endif -%}
 <header class="ve-mast">
-  <a class="ve-brand" href="{{ home | relative_url }}">{% if page.type == 'website' %}{{ site.brand | escape }}{% else %}{{ site.publication_name | escape }}{% endif %}</a>
+  {% if page.type == 'website' -%}
+  <a class="ve-brand" href="{{ home | relative_url }}">{{ site.brand | escape }}</a>
+  <nav class="ve-nav" aria-label="{{ mast_labels.nav | escape }}">
+    <a href="#writing">{{ mast_labels.writing | escape }}</a>
+    <a href="#experience">{{ mast_labels.experience | escape }}</a>
+    <a href="#publications">{{ mast_labels.publications_nav | escape }}</a>
+    <a href="#education">{{ mast_labels.education | escape }}</a>
+  </nav>
+  {%- else -%}
+  <a class="ve-brand" href="{{ home | relative_url }}#writing">{{ site.publication_name | escape }}</a>
+  {%- endif %}
   <a class="ve-language" href="{{ page.alternate | relative_url }}" lang="{{ target_language }}" hreflang="{{ target_language }}" aria-label="{{ switch_label }}">{{ switch_text }}</a>
 </header>

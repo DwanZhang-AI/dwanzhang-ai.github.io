@@ -36,7 +36,7 @@
   <meta property="og:title" content="{{ title | escape }}">
   <meta property="og:description" content="{{ description | strip_html | strip | escape }}">
   <meta property="og:url" content="{{ page.url | absolute_url }}">
-  {% if post.cover %}<meta property="og:image" content="{{ post.cover | absolute_url }}">{% endif %}
+  {% if post.cover %}<meta property="og:image" content="{{ post.cover | absolute_url }}">{% elsif page.type == 'website' %}<meta property="og:image" content="{{ '/assets/avatar.jpg' | absolute_url }}">{% endif %}
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <link rel="alternate" hreflang="en" href="{{ english | absolute_url }}">
   <link rel="alternate" hreflang="zh-CN" href="{{ chinese | absolute_url }}">

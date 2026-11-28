@@ -1,14 +1,30 @@
 {% assign chinese = false %}
-{% if page.language == 'zh' %}{% assign chinese = true %}{% endif %}
+{% assign lang = 'en' %}
+{% if page.language == 'zh' %}{% assign chinese = true %}{% assign lang = 'zh' %}{% endif %}
+{% assign me = site.data.profile %}
+{% assign labels = me.labels[lang] %}
 <div class="home">
   {% include site-mast.html %}
   <div class="home-content">
     <header class="home-intro">
-      <h1 lang="en">{{ site.publication_name | escape }}</h1>
+      <div class="intro-head">
+        <h1 lang="en">{{ me.name | escape }}</h1>
+        <p class="intro-role">{% for part in me.role[lang] %}<span>{{ part | escape }}{% unless forloop.last %} ·{% endunless %}</span> {% endfor %}</p>
+      </div>
+      <img class="intro-portrait" src="{{ '/assets/avatar.jpg' | relative_url }}" width="400" height="400" alt="{{ labels.portrait | escape }}">
+      <div class="intro-body">
+        <p class="intro-about">{{ me.about[lang] | escape }}</p>
+        <nav class="intro-links" aria-label="{{ labels.links | escape }}">
+          {% for link in me.links %}<a href="{{ link.url | escape }}">{{ link.label[lang] | escape }}</a>{% endfor %}
+        </nav>
+      </div>
     </header>
 
-    <section class="home-writing" aria-labelledby="writing">
-      <h2 id="writing">{% if chinese %}文章{% else %}Writing{% endif %}</h2>
+    <section class="home-section home-writing" aria-labelledby="writing">
+      <div class="section-head">
+        <h2 id="writing">{{ labels.writing | escape }}</h2>
+        <span lang="en">{{ site.publication_name | escape }}</span>
+      </div>
       {% for post in site.posts %}
         {% if chinese %}
           {% assign story = site.data[post.story] %}
@@ -30,6 +46,58 @@
         </article>
       {% endfor %}
     </section>
+
+    <section class="home-section" aria-labelledby="experience">
+      <div class="section-head">
+        <h2 id="experience">{{ labels.experience | escape }}</h2>
+      </div>
+      {% for job in me.experience %}
+        <article class="cv-item">
+          <p class="cv-when">{{ job.when[lang] | escape }}</p>
+          <div class="cv-what">
+            <h3>{{ job.org[lang] | escape }}</h3>
+            <p class="cv-role">{{ job.role[lang] | escape }} · {{ job.place[lang] | escape }}</p>
+            {% if job.points %}
+              <ul>
+                {% for point in job.points[lang] %}<li>{{ point | escape }}</li>{% endfor %}
+              </ul>
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+
+    <section class="home-section" aria-labelledby="publications">
+      <div class="section-head">
+        <h2 id="publications">{{ labels.publications | escape }}</h2>
+        <a href="{{ me.scholar | escape }}">{{ labels.full_list | escape }}</a>
+      </div>
+      <ul class="pub-list">
+        {% for paper in me.publications %}
+          <li class="pub-item">
+            <p class="pub-venue">{% if paper.venue %}<span lang="en">{{ paper.venue | escape }}</span>{% else %}<span>{{ labels.submitted | escape }}</span>{% endif %}{% if paper.honor %}<span class="pub-honor" lang="en">{{ paper.honor | escape }}</span>{% endif %}</p>
+            <p class="pub-title" lang="en">{% if paper.url %}<a href="{{ paper.url | escape }}">{{ paper.title | escape }}</a>{% else %}{{ paper.title | escape }}{% endif %}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="home-section" aria-labelledby="education">
+      <div class="section-head">
+        <h2 id="education">{{ labels.education | escape }}</h2>
+      </div>
+      {% for school in me.education %}
+        <article class="cv-item">
+          <p class="cv-when">{{ school.when | escape }}</p>
+          <div class="cv-what">
+            <h3>{{ school.org[lang] | escape }}</h3>
+            <p class="cv-role">{{ school.degree[lang] | escape }} · {{ school.place[lang] | escape }}</p>
+            {% if school.note %}<p class="cv-note">{{ school.note[lang] | escape }}</p>{% endif %}
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+
     <footer class="home-footer">
       <span>© {{ site.time | date: '%Y' }} {{ site.brand }}</span>
       <nav aria-label="{% if chinese %}其他链接{% else %}More links{% endif %}">
